@@ -1,27 +1,49 @@
+/*
+Title: Culminating
+Name: Angie Seto
+Date Created: June 1, 2026
+Date Updated: June 1, 2026 */
+
+import java.util.Scanner;
+
 public class PracticeProblem {
 
 	public static void main(String args[]) {
 
+		//Start menu
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Welcome to 'Book of the Doll'!");
+
+		System.out.println("Please type next to begin.");
+		String nextChoice = next(input.nextLine());
+
+		int num; 
+
+	// 	do { 
+	// 		System.out.print("Input a positive integer: ");
+	// 		num = input.nextInt();
+	// 	} while (num < 0);
+
+	// 	System.out.println(num * 2);
 	}
 
-	public static void q1() {
-		//Write question 1 code here
+	public static String next (String nextChoice) {
+		Scanner input = new Scanner(System.in);
+		nextChoice.toLowerCase();
+
+		do{
+			System.out.println("Please type a valid answer.");
+			nextChoice = input.nextLine().toLowerCase();
+		} while (!((nextChoice.equalsIgnoreCase("next")) || (nextChoice.equalsIgnoreCase("return"))));
+			
+		System.out.println("Hey, it's good");
+		return nextChoice;
+
 	}
 
-	public static void q2() {
-		//Write question 2 code here
-	}
-
-	public static void q3() {
-		//Write question 3 code here
-	}
-
-	public static void q4() {
-		//Write question 4 code here
-	}
-
-	public static void q5() {
-		//Write question 5 code here
+	public static String choiceChecker (int choiceNum) {
+		return "Hi";
 	}
 
 }
