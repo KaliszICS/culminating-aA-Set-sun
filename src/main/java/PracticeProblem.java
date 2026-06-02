@@ -2,9 +2,10 @@
 Title: Culminating
 Name: Angie Seto
 Date Created: June 1, 2026
-Date Updated: June 1, 2026 */
+Date Updated: June 2, 2026 */
 
 import java.util.Scanner;
+import java.util.Deque;
 
 public class PracticeProblem {
 
@@ -15,17 +16,15 @@ public class PracticeProblem {
 		
 		System.out.println("Welcome to 'Book of the Doll'!");
 
-		System.out.println("Please type next to begin.");
-		String nextChoice = next(input.nextLine());
+		System.out.println("Please type Start to begin.");
+		String nextChoice = "";
 
-		int num; 
+		do{
+			nextChoice = input.nextLine();
+		} while (!((nextChoice.equalsIgnoreCase("start"))));
 
-	// 	do { 
-	// 		System.out.print("Input a positive integer: ");
-	// 		num = input.nextInt();
-	// 	} while (num < 0);
+		
 
-	// 	System.out.println(num * 2);
 	}
 
 	public static String next (String nextChoice) {
@@ -33,16 +32,20 @@ public class PracticeProblem {
 		nextChoice.toLowerCase();
 
 		do{
-			System.out.println("Please type a valid answer.");
 			nextChoice = input.nextLine().toLowerCase();
 		} while (!((nextChoice.equalsIgnoreCase("next")) || (nextChoice.equalsIgnoreCase("return"))));
 			
-		System.out.println("Hey, it's good");
 		return nextChoice;
 
 	}
 
 	public static String choiceChecker (int choiceNum) {
+		// Scanner input = new Scanner(System.in);
+
+		// do{
+		// 	choiceNum = input.nextInt();
+		// } while (!((choiceNum  || (choiceNum.equalsIgnoreCase("return"))));
+
 		return "Hi";
 	}
 
