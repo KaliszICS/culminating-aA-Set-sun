@@ -65,18 +65,39 @@ public class PracticeProblem {
 		System.out.println("1. Wake up" + "\n2. Don't wake up");
 		int choice = choiceChecker();
 
-		if (choice == 2) {
-			System.out.println("You fall back into slumber with your eyes closed. You don't notice as the library consumes you." + "\nYour world returns to darkness");
-			Global.turn++;
-			firstScene();
+		if (choice == 2) { //actual game end.
+			System.out.println("Choosing apathy, you fall back into slumber.");
+			System.out.println("You don't notice as the library consumes you. You will never open your eyes again.");
+			System.exit(0);
 		}
 
-		System.out.println("\nYour forearm is slightly tingly. Do you check it?");
+		System.out.println("\nYour wrist is slightly tingly. Do you check it?");
 		System.out.println("1. Check it" + "\n2. Don't check it");
 		choiceChecker();
 
-		if (choice == 1) { //if you pick to sleep and then pick to check, it loops again?? wth??
-			System.out.println("You look down at your forearm, tilting it until you could see your inner forearm." + "\nA number appears on your forearm, reading " + Global.turn + ".");
+		if (choice == 1) { 
+			System.out.println("You look down at your inner wrist. A number appears faintly, reading " + Global.turn + ".");
+
+			switch (Global.turn) { //fix later
+				case 0:
+					System.out.println("\nThis is strange. You try to rub  it off, but it doesn't fade. You don't remember how it got there, but you realize you don't remember much in general.");
+					break;
+				case 1:
+					System.out.println("You frown. Has the number changed?");
+					break;
+				case 3:
+					System.out.println("The number is changing according to how many times you've run into an unfortunate roadblock.");
+
+			}
+			// if (Global.turn == 0) {
+			// 	System.out.println("\nThis is strange. You try to rub  it off, but it doesn't fade. You don't remember how it got there, but you realize you don't remember much in general.");
+			// }
+
+			// if (Global.turn == 1) {
+			// 	System.out.println("You frown. Has the number changed?");
+			// }
+
+			// if (Global.turn)
 		}
 
 		System.out.println(Global.name + " got out!");
