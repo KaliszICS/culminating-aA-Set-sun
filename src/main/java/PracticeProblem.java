@@ -14,12 +14,16 @@ public class PracticeProblem {
     public static String name;
     public static int choice;
     public static String next;
+
+	public static boolean metSano = false;
+
     public static Stack<String> deaths = new Stack<>(); //keep track of most recent death 
         /* Fell = died to falling out of the library
             Lost = died in endless library
             Wall = crashed into wall from Seimei's chase
             Aka = died in bathroom */
-    public static boolean fellOut = false;
+	public static String recentDeath = deaths.peek().toLowerCase();
+	public static boolean fellOut = false;
 
 	public static Stack<String> scenes = new Stack<>(); //keep track of what scene we want to go to next etc.
 
@@ -31,9 +35,7 @@ public class PracticeProblem {
 				case ("scene1"): firstScene(); break;
 				case ("library"): library(); break;
 				//case (""): break;
-				
 			}
-			
 		}
 	}
 
@@ -63,7 +65,7 @@ public class PracticeProblem {
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
 
-		firstScene();
+		choiceChecker();
 	
 	}
 
@@ -97,6 +99,12 @@ public class PracticeProblem {
 	public static void firstScene () { //the first waking scene 
 		Scanner input = new Scanner(System.in);
 
+		switch (recentDeath) {
+			case ("fell"): System.out.println("====FELL====\n\nYou remember falling out of the door. It was endlessly cold. Maybe you should lie to Mr. Yakubyougami for now..."); break;
+			case ("lost"): System.out.println("====LOST====\n\nYou remember losing yourself. Alone and afraid. Maybe you shouldn't enter the library..."); break;
+			case ("wall"): System.out.println("====CRASH====\n\nYou remember crashing into a wall. Embarassing. Maybe you should cover up your clothes, or find a change of clothes..."); break;
+			case ("aka"): System.out.println("====TOILET====\n\nYou don't want to remember that one. Maybe you should give him a taste of his own medicine..."); break;
+		}
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
 		System.out.println("1. Wake up now" + "\n2. Don't wake up");
 		choice = choiceChecker();
@@ -155,70 +163,77 @@ public class PracticeProblem {
 		}
 		System.out.print(" There's nobody behind the counter.");
 		next = next();
-	
+		
+		while (metSano == false) { 
 		//meeting Mr. Yakubyougami-------------------------------------------
-		System.out.println("\nSuddenly, a pretty blond man appears from the shelves with a pile of books in his arms. He's wearing a blue apron, suggesting he worked here. He looks your age, although you don't know how old you are. " + 
-		"He eyes you coolly, as if not expecting you to have been standing there.");
-		next = next();
-
-		switch (turn) { //flavour text depending on how many times you've met him
-			case 0:
-				System.out.println("You're sure that if this were a dating sim or something, he'd be an aloof love interest. You shake your head, clearing your thoughts. You shouldn't assume because that makes a...nevermind.");
-			break;
-		}
-
-		System.out.println("\nYou stare at him blankly. He watches you back with a neutral expression.");
-		next = next();
-
-		System.out.println("After a bit, he clears his throat and he walks past you to set the books down. He turns back around to face you.");
-		System.out.println("\n\"I'm...\" He introduces himself.");
-		next = next();
-
-		switch (turn) { //flavour text regarding his name
-			case 0:
-				System.out.println("You frown. You didn't hear it at all, however it was too awkward to ask him to repeat. You stare at him again in silence, squinting as if that would magically give you his name.");
-				next = next();
-				System.out.println("\n'Yakubyougami' You brain helpfully supplies. Thank you, brain.\n\nYou had no clue what a 'Yakubyougami' was nor did you know why you knew that word, but regardless, you decided his name must've been Mr. Yakubyougami.");
-			break;
-
-			case 1: System.out.println("\nYou tried your best to listen attentively this time, but you still had no clue what his name was. He was still Mr. Yakugyougami then."); break;
-			default: System.out.println("\nOkay, this had to be intentional. Sorry, Mr. Yakubyougami then.");
-		}
-		next = next();
-
-		//FIRST POSSIBLE TURN DEATH------------------------------------------------------ 
-		System.out.println("\n\"Um, you're the new employee, right? I'm your co-worker,\" Mr. Yakubyougami says.");
-		System.out.println("1. Silently nod along\n2. Tell him you're not an employee");
-		choice = choiceChecker();
-
-		if (choice == 2) { //game END
-			System.out.println("\"What? You know you're not supposed to be here then before opening.\" Mr. Yakubyougami raises a brow. He looks suspicious. \"You should leave then,\" he says.");
+			switch (turn) {
+				case 0:	
+					System.out.println("\nSuddenly, a pretty blond man appears from the shelves with a pile of books in his arms.");
+				break;
+				default: 
+					System.out.println("\nMr. Yakubyougami appears from the shelves with a pile of books in his arms.");
+			}
+			System.out.println("\nHe's wearing a blue apron, suggesting he worked here. He looks your age, although you don't know how old you are. " + 
+			"He eyes you coolly, as if not expecting you to have been standing there.");
 			next = next();
 
-			if (fellOut == true) { //has fallen at least once
-				System.out.println("\n\"I-I can't leave! I'll die! You don't understand, there's nothing out there!\" You begin to frantically tell him. \n\nMr. Yakubyougami's eyes narrow at your erratic behaviour." + 
-				" \n\n\"Maybe you get some fresh air. I'm afraid you have to leave.\" He firmly pushes you out. You resist, but he's stronger than you. He opens the door and you fall into the darkness again.");
-			} 
-			else { //haven't died from falling before
-				System.out.println("\nYou frown as he speaks, but you get distracted. \n\nThere's a door you hadn't noticed behind Mr. Yakubyougami. \n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
-				fellOut = true; //died once to falling 
+			switch (turn) { //flavour text depending on how many times you've met him
+				case 0:
+					System.out.println("You're sure that if this were a dating sim or something, he'd be an aloof love interest. You shake your head, clearing your thoughts. You shouldn't assume because that makes a...nevermind.");
+				break;
 			}
-			turn++;
-			deaths.push("Fell"); //died to falling, most recent
-			//firstScene(); //restart from scene 1
-			//add fitstSCENE TO STACK
-			return;
-		}
+			System.out.println("\nYou stare at him blankly. He watches you back with a neutral expression.");
+			next = next();
 
-		if (turn == 1) { //extra dialogue option for the first death
-			System.out.println("1. Ask him if you just died\n2. Stay silent");
-			choice = choiceChecker();
-			if (choice == 1) {
-			System.out.println("\n\"Did I just die?\" you blurt out. " + 
-			"\n\nMr. Yakubyougami gives you a strange look that suggests he thinks you've lost your mind. Maybe you have. " +
-			"\n\n\"What...? Do you need a break...? If not, just get to work.\" He walks away and you lose him almost instantly among the shelves. Ugh...");
+			System.out.println("After a bit, he clears his throat and he walks past you to set the books down. He turns back around to face you.");
+			System.out.println("\n\"I'm...\" He introduces himself.");
+			next = next();
+
+			switch (turn) { //flavour text regarding his name
+				case 0:
+					System.out.println("You frown. You didn't hear it at all, however it was too awkward to ask him to repeat. You stare at him again in silence, squinting as if that would magically give you his name.");
+					next = next();
+					System.out.println("\n'Yakubyougami' You brain helpfully supplies. Thank you, brain.\n\nYou had no clue what a 'Yakubyougami' was nor did you know why you knew that word, but regardless, you decided his name must've been Mr. Yakubyougami.");
+				break;
+
+				case 1: System.out.println("\nYou tried your best to listen attentively this time, but you still had no clue what his name was. He was still Mr. Yakugyougami then."); break;
+				default: System.out.println("\nOkay, this had to be intentional. Sorry, Mr. Yakubyougami then.");
 			}
-		}
+			next = next();
+
+			//FIRST POSSIBLE TURN DEATH------------------------------------------------------ 
+			System.out.println("\n\"Um, you're the new employee, right? I'm your co-worker,\" Mr. Yakubyougami says.");
+			System.out.println("1. Silently nod along\n2. Tell him you're not an employee");
+			choice = choiceChecker();
+
+			if (choice == 2) { //game END
+				System.out.println("\"What? You know you're not supposed to be here then before opening.\" Mr. Yakubyougami raises a brow. He looks suspicious. \"You should leave then,\" he says.");
+				next = next();
+
+				if (fellOut == true) { //has fallen at least once
+					System.out.println("\n\"I-I can't leave! I'll die! You don't understand, there's nothing out there!\" You begin to frantically tell him. \n\nMr. Yakubyougami's eyes narrow at your erratic behaviour." + 
+					" \n\n\"Maybe you get some fresh air. I'm afraid you have to leave.\" He firmly pushes you out. You resist, but he's stronger than you. He opens the door and you fall into the darkness again.");
+				} 
+				else { //haven't died from falling before
+					System.out.println("\nYou frown as he speaks.\n\nThere's a door you hadn't noticed behind Mr. Yakubyougami. \n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
+					fellOut = true; //died once to falling 
+				}
+				turn++;
+				deaths.push("Fell"); //died to falling, most recent
+				scenes.push("scene1"); //go back to scene 1
+				sceneChooser();
+			}
+
+			if (turn == 1) { //extra dialogue option for the first death
+				System.out.println("1. Ask him if you just died\n2. Stay silent");
+				choice = choiceChecker();
+				if (choice == 1) {
+				System.out.println("\n\"Did I just die?\" you blurt out. " + 
+				"\n\nMr. Yakubyougami gives you a strange look that suggests he thinks you've lost your mind. Maybe you have. " +
+				"\n\n\"What...? Do you need a break...? If not, just get to work.\" He walks away and you lose him almost instantly among the shelves. Ugh...");
+				}
+			}
+	} //end of Sano's first scene
 
 		System.out.println("\nAHHHHHHHHH ANGIE HELP HELP IT'S REPEATING HERE LOOK HERE");
 
