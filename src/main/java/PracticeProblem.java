@@ -16,14 +16,17 @@ public class PracticeProblem {
     public static String next;
 
 	public static boolean metSano = false;
+	public static boolean firstTimeBookshelf = true;
 
     public static Stack<String> deaths = new Stack<>(); //keep track of most recent death 
         /* Fell = died to falling out of the library
             Lost = died in endless library
             Wall = crashed into wall from Seimei's chase
             Aka = died in bathroom */
-	public static String recentDeath = deaths.peek().toLowerCase();
-	public static boolean fellOut = false;
+    public static boolean fellOut = false;
+	public static boolean gotLost = false;
+	public static boolean crashed = false;
+	public static boolean deathToAka = false;
 
 	public static Stack<String> scenes = new Stack<>(); //keep track of what scene we want to go to next etc.
 
@@ -34,7 +37,8 @@ public class PracticeProblem {
 			switch (scene) {
 				case ("scene1"): firstScene(); break;
 				case ("library"): library(); break;
-				//case (""): break;
+				case ("bookshelf"): bookshelf(); break;
+				case ("hallway"): hallway(); break;
 			}
 		}
 	}
@@ -65,7 +69,7 @@ public class PracticeProblem {
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
 
-		choiceChecker();
+		firstScene();
 	
 	}
 
@@ -99,12 +103,6 @@ public class PracticeProblem {
 	public static void firstScene () { //the first waking scene 
 		Scanner input = new Scanner(System.in);
 
-		switch (recentDeath) {
-			case ("fell"): System.out.println("====FELL====\n\nYou remember falling out of the door. It was endlessly cold. Maybe you should lie to Mr. Yakubyougami for now..."); break;
-			case ("lost"): System.out.println("====LOST====\n\nYou remember losing yourself. Alone and afraid. Maybe you shouldn't enter the library..."); break;
-			case ("wall"): System.out.println("====CRASH====\n\nYou remember crashing into a wall. Embarassing. Maybe you should cover up your clothes, or find a change of clothes..."); break;
-			case ("aka"): System.out.println("====TOILET====\n\nYou don't want to remember that one. Maybe you should give him a taste of his own medicine..."); break;
-		}
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
 		System.out.println("1. Wake up now" + "\n2. Don't wake up");
 		choice = choiceChecker();
@@ -136,7 +134,7 @@ public class PracticeProblem {
 				case 0:	System.out.println("\nThis is strange. You try to rub it off, but it doesn't fade. You don't remember how it got there, but you don't remember much in general."); break;
 				case 1: System.out.println("\nYou frown. Has the number changed?"); break;
 			}
-			if (turn >= 3) { //more than/= 3 turns
+			if (turn >= 2) { //more than/= 3 turns
 				System.out.println("You've deduced that the number is changing according to how many times you've run into an unfortunate roadblock.");
 			}
 		} else { //don't check wrist
@@ -146,7 +144,8 @@ public class PracticeProblem {
 		System.out.println("\nOh well. You look around.");
 		next = next();
 
-		library();
+		scenes.push("library");
+		sceneChooser();
 	} 
 
 	public static void library () {
@@ -165,7 +164,7 @@ public class PracticeProblem {
 		next = next();
 		
 		while (metSano == false) { 
-		//meeting Mr. Yakubyougami-------------------------------------------
+		//meeting Sano-------------------------------------------
 			switch (turn) {
 				case 0:	
 					System.out.println("\nSuddenly, a pretty blond man appears from the shelves with a pile of books in his arms.");
@@ -215,7 +214,7 @@ public class PracticeProblem {
 					" \n\n\"Maybe you get some fresh air. I'm afraid you have to leave.\" He firmly pushes you out. You resist, but he's stronger than you. He opens the door and you fall into the darkness again.");
 				} 
 				else { //haven't died from falling before
-					System.out.println("\nYou frown as he speaks.\n\nThere's a door you hadn't noticed behind Mr. Yakubyougami. \n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
+					System.out.println("\nYou frown as he speaks, but you get distracted. \n\nThere's a door you hadn't noticed behind Mr. Yakubyougami. \n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
 					fellOut = true; //died once to falling 
 				}
 				turn++;
@@ -223,25 +222,75 @@ public class PracticeProblem {
 				scenes.push("scene1"); //go back to scene 1
 				sceneChooser();
 			}
+	
+			System.out.println("\"Actually, since you're here. Could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
 
 			if (turn == 1) { //extra dialogue option for the first death
+				System.out.println("You still feel unsettled. Maybe you should ask him to confirm.");
 				System.out.println("1. Ask him if you just died\n2. Stay silent");
 				choice = choiceChecker();
-				if (choice == 1) {
-				System.out.println("\n\"Did I just die?\" you blurt out. " + 
-				"\n\nMr. Yakubyougami gives you a strange look that suggests he thinks you've lost your mind. Maybe you have. " +
-				"\n\n\"What...? Do you need a break...? If not, just get to work.\" He walks away and you lose him almost instantly among the shelves. Ugh...");
+				
+				if (choice == 1) { //ask him
+					System.out.println("\n\"Did I just die?\" you blurt out. " + 
+					"\n\nMr. Yakubyougami gives you a strange look that suggests he thinks you've lost your mind. Maybe you have. " +
+					"\n\n\"What...? Do you need a break...? If not, just get to work.\" He walks away and you lose him almost instantly among the shelves. Ugh...");
 				}
 			}
-	} //end of Sano's first scene
+			metSano = true;
+		} //end of Sano's first scene
 
-		System.out.println("\nAHHHHHHHHH ANGIE HELP HELP IT'S REPEATING HERE LOOK HERE");
+		System.out.println("1. Look at bookshelf\n2. Continue to the hallway");
+		choice = choiceChecker();
+
+		switch (choice) {
+			case 1: //look at shelf
+				System.out.println("You look at the bookshelf.");
+				scenes.push("bookshelf");
+				sceneChooser();
+			break;
+
+			case 2:	//continue to shelf
+				System.out.println("With nothing else to do, you decide to head over to the hallway.");
+				scenes.push("hallway");
+				sceneChooser();
+			break;
+		}
+	}
+
+	public static void bookshelf() { //work on bookshelf
+		System.out.println("========BOOKSHELF========");
+
+		if (firstTimeBookshelf == true) {
+			System.out.println("You reach for a book. As soon as you open it, the surface of the book ripples. A fat white radish is buried in the dirt, looking adorable in its drawn style.");
+			next = next();
+			System.out.println("Hesitantly, you touch the rippling surface. Your finger sinks into the surface and you pluck the vegetable out of the dirt by the leaves. It screams insults at you and bites your finger." +
+			"\n\n\"Yeowch!\" you yelp, dropping the book and falling on your butt. Leaves scatter around you as the book closes. You rub your finger. Thankfully, it didn't draw blood."); 
+			System.out.println("You get up. Okay...maybe you could do something like that with other books too...");
+			firstTimeBookshelf = false;
+		}
+
+		System.out.println("1.[Origami with Unusual Materials]\n2.[Laidback Guide to the Wacky and Wysterious]\n3.[Ritual Book]");
+		if (aka == true) {
+
+		}
 
 
+		
+	}
 
-
+	public static void hallway() {
+		System.out.println("========HALLWAY========");
 
 	
+	}
+
+	public static void office() {
+		System.out.println("========OFFICE========");
+
+	}
+
+	public static void bathroom() {
+		System.out.println("========BATHROOM========");
 
 	}
 }
