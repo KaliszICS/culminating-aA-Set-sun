@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
 
 public class PracticeProblem {
 
@@ -62,12 +63,6 @@ public class PracticeProblem {
 			}
 		}
 	}
-
-	/* 1. Make stack 
-	2. Start with scene chooser and push scene1 onto stack
-	3. Peek stack for what's on top using switch cases, and then run method there 
-	4. Before method ends, push the next room into stack and return to sceneChooser
-	5. Loop it WHILE it's not empty */
 	
 	public static void main(String args[]) {
 
@@ -346,7 +341,50 @@ public class PracticeProblem {
 				break;
 
 				case 2: //wacky guide
-					System.out.println("It's a book about various types of creatures.");
+					System.out.println("It's a book about various types of creatures. You flip to a random page.");
+					Random random = new Random(); //random pages
+					int page = random.nextInt(8);
+
+					switch (page) {
+						case 1: //Sano's page
+							System.out.println("====PAGE 7====");
+							System.out.println("\"\nYakubyougami are malevolent spirits who spread disease and misfortune to others around them. They are also known as 'God of Plague'.\"");
+						break;
+						case 2: //Seimei's page
+							System.out.println("====PAGE 21====");
+							System.out.println("\"\nOnmyojis are historically powerful diviners who occasionally perform tasks like cleansing to get rid of bad youkai! The Abe family is one of the most well-known.\""); 
+						break;
+						case 3: //Aka Manto's page
+							System.out.println("====PAGE 4====");
+							System.out.println("\"\nAka Manto is a ghost who haunts bathrooms without toilet paper. A figure with a ghastly red cloak will arrive and offer red or blue toilet paper" + 
+							" before delivering a harsh punishment. How unhelpful!\"");
+						break;
+						case 4: //Dodomeki's page
+							System.out.println("===PAGE 10====");
+							System.out.println("\"A dodomeki is a type of oni with many eyes and long arms! They can will eyes to appear all over their body or within a 500ft radius, as a historical punishment for coin theives.\""); break;
+						
+						case 5: //Ichijama page
+							System.out.println("====PAGE 14===="); 
+							System.out.println("\"An icihijama is a curse, but the term also refers to the family line that posesses the knowledge on how to create and manifest a ichijama butokii.\"");break;
+						
+						case 6: //Mandragora page
+							System.out.println("====PAGE 300===");
+							System.out.println("\"Mandragoras, otherwise known as mandrakes, are poisonous plant creatures who resemble radishes, but they hate being mistaken as anything but mandragoras." + 
+							" They shriek when pulled out of the ground.\""); break;
+
+						case 7: //Library page
+							System.out.println("====PAGE 41====");
+							System.out.println("\"There exists a library that contains every book in the world, including every living creature's story."+ 
+							" Nobody knows where it is, but it's possible this library is disguised as a regular bookstore?\""); break;
+
+							/*1. Sano's page
+							2. Seimei's page
+							3. Aka Manto's page
+							4. Dodomeki page
+							5. Ichijama page
+							6. mArshmallow  page
+							7. Library */
+					}
 			} 
 		}
 
@@ -355,7 +393,6 @@ public class PracticeProblem {
 		sceneChooser();
 		}
 	}
-
 
 	public static void hallway() {
 		System.out.println("========HALLWAY========");
