@@ -6,8 +6,8 @@ Date Updated: June 7, 2026 */
 
 import java.util.Scanner;
 import java.util.Stack;
-//import java.util.Deque;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PracticeProblem {
 
@@ -16,6 +16,7 @@ public class PracticeProblem {
     public static int choice;
     public static String next;
 
+	//Event checkers -> have you done this event yet?
 	public static boolean metSano = false;
 	public static boolean firstTimeBookshelf = true; //first time looking at bookshelf, triggers demonstration
 	public static boolean chasedBySeimei = false;
@@ -30,10 +31,24 @@ public class PracticeProblem {
     public static boolean fellOut = false;
 	public static boolean gotLost = false;
 	public static boolean crashed = false;
-	public static boolean dieAka = false;
+	public static boolean dieAka = false; //this is technically an event
 
 	public static Stack<String> scenes = new Stack<>(); //keep track of what scene we want to go to next etc.
-	ArrayList<Integer> books = new ArrayList<Integer>(); //keep track of how many books you've unlocked basically -> use to expand the number of options for the bookshelf choice
+	public static ArrayList<Integer> books = new ArrayList<Integer>(); //keep track of how many books you've unlocked basically -> use to expand the number of options for the bookshelf choice
+
+	//inventory/items
+	public static boolean toiletpaper = false;
+		public static boolean bluepaper = false;
+		public static boolean redpaper = false;
+	public static boolean redCloak = false;
+	public static boolean sailorUni = false;
+
+	public static boolean chalk = false;
+	public static boolean cake = false;
+	public static boolean scissors = false;
+	public static boolean candlesAndLighter = false;   
+
+	public static int cruelty = 0; 
 
 	public static void sceneChooser() { //the scene chooser 
 		String scene = scenes.peek().toLowerCase();
@@ -74,8 +89,9 @@ public class PracticeProblem {
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
 
-		firstScene();
-	
+		scenes.push("library");
+		sceneChooser();
+			
 	}
 
 	public static String next () { //proceeds story
@@ -100,16 +116,15 @@ public class PracticeProblem {
 		do{
 			choice = 0;
 			choice = input.nextInt();
-
-
-		} while (!(choice > small number) && !(choice < big number));
-		
+		} while (!(choice == 1) && !(choice == 2));
 		return choice;
 	}
 
 	public static int bookshelfChecker () { //checks and expands for more than 2 answers as bookshelf expands 
 		Scanner input = new Scanner(System.in);
 		int choice = 0; 
+		System.out.println(books);
+		System.out.println(books.size());
 
 		while (!(input.hasNextInt())) { //make sure input is definitely an int
 			input.nextLine(); //clear scanner
@@ -117,8 +132,8 @@ public class PracticeProblem {
 		do{
 			choice = 0;
 			choice = input.nextInt();
-		} while (!(choice == 1) && !(choice == 2));
-		
+		} while (!(choice >= books.get(0)) || !(choice <= books.size()));
+	
 		return choice;
 	}
 
@@ -166,6 +181,7 @@ public class PracticeProblem {
 		System.out.println("\nOh well. You look around.");
 		next = next();
 
+		metSano = false; //because you've restarted the loop, you have to meet Sano again from the beginning
 		scenes.push("library");
 		sceneChooser();
 	} 
@@ -198,11 +214,6 @@ public class PracticeProblem {
 			"He eyes you coolly, as if not expecting you to have been standing there.");
 			next = next();
 
-			switch (turn) { //flavour text depending on how many times you've met him
-				case 0:
-					System.out.println("You're sure that if this were a dating sim or something, he'd be an aloof love interest. You shake your head, clearing your thoughts. You shouldn't assume because that makes a...nevermind.");
-				break;
-			}
 			System.out.println("\nYou stare at him blankly. He watches you back with a neutral expression.");
 			next = next();
 
@@ -218,7 +229,7 @@ public class PracticeProblem {
 				break;
 
 				case 1: System.out.println("\nYou tried your best to listen attentively this time, but you still had no clue what his name was. He was still Mr. Yakugyougami then."); break;
-				default: System.out.println("\nOkay, this had to be intentional. Sorry, Mr. Yakubyougami then.");
+				default: System.out.println("\nOkay, this silence had to be intentional. Sorry, Mr. Yakubyougami then.");
 			}
 			next = next();
 
@@ -227,7 +238,7 @@ public class PracticeProblem {
 			System.out.println("1. Silently nod along\n2. Tell him you're not an employee");
 			choice = choiceChecker();
 
-			if (choice == 2) { //game END
+			if (choice == 2) { //GAME RESTARTS
 				System.out.println("\"What? You know you're not supposed to be here then before opening.\" Mr. Yakubyougami raises a brow. He looks suspicious. \"You should leave then,\" he says.");
 				next = next();
 
@@ -245,10 +256,10 @@ public class PracticeProblem {
 				sceneChooser();
 			}
 	
-			System.out.println("\"Actually, since you're here, could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
+			System.out.println("\"Since you're here, could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
 
 			if (turn == 1) { //extra dialogue option for the first death
-				System.out.println("You still feel unsettled. Maybe you should ask him to confirm.");
+				System.out.println("\nYou still feel unsettled. Maybe you should ask him to confirm.");
 				System.out.println("1. Ask him if you just died\n2. Stay silent");
 				choice = choiceChecker();
 				
@@ -282,37 +293,67 @@ public class PracticeProblem {
 	public static void bookshelf() { //work on bookshelf
 		System.out.println("========BOOKSHELF========");
 
-		if (firstTimeBookshelf == true) {
+		if (firstTimeBookshelf == true) { //a one-time check for if MC knows how the books work
 			System.out.println("You reach for a book. As soon as you open it, the surface of the book ripples. A fat white radish is buried in the dirt, looking adorable in its drawn style.");
 			next = next();
-			System.out.println("Hesitantly, you touch the rippling surface. Your finger sinks into the surface and you pluck the vegetable out of the dirt by the leaves. It screams insults at you and bites your finger." +
-			"\n\n\"Yeowch!\" you yelp, dropping the book and falling on your butt. Leaves scatter around you as the book closes. You rub your finger. Thankfully, it didn't draw blood."); 
-			System.out.println("You get up. Okay...maybe you could do something like that with other books too...\n");
+			System.out.println("Hesitantly, you touch the rippling surface. Your finger sinks into the surface and you pluck the vegetable out of the dirt by the leaves. It screams insults at you and bites your finger.");
+			next = next();
+			System.out.println("\n\"Yeowch!\" you yelp, dropping the book and falling on your butt. Leaves scatter around you as the book closes. You rub your finger. Thankfully, it didn't draw blood."); 
+			System.out.println("\nYou get up. Okay...maybe you could do something like that with other books too...\n");
 			firstTimeBookshelf = false;
 		}
 
+		//------CHOOSING BOOKS-----------------------------------------------------
+		books.clear(); //clear books
 		System.out.println("1.[Origami with Unusual Materials]\n2.[Laidback Guide to the Wacky and Wysterious]\n3.[Ritual Book]");
+		books.add(1); 
+		books.add(2);
+		books.add(3);
 
+		chasedBySeimei = true;
 		if (chasedBySeimei == true) {
 			System.out.println("4.[Catalog of Sailor Uniforms Over the Ages]");
+			books.add(4);
 		}
 	
 		if (dieAka == true) {
 			System.out.println("5.[That Time I Was a Whale, and I Ate a Guy's Leg]\n6.[Bloody Baking]");
+			books.add(5);
+			books.add(6);
+
 		}//reading bloody baking or birthday after reading chalk prince will allow you to get cake
 
 		if (openDoor == true) {
 			System.out.println("7.[Lit Birthday Etiquette]\n8.[The Chalk Prince]\n9.[Scissor Serial]");
+			books.add(7);
+			books.add(8);
+			books.add(9);
 		}
-		//probably use growing array to keep track of how many books you currently have in the 
-		// library, + make another choice method for the bookshelf specifically to pick numbers
 
-		//
+		System.out.println("1. Read a book\n2.Return to the library");
+		choice = choiceChecker();
+		
+		if (choice == 1) {
+			System.out.print("Enter the book number: ");
+			choice = bookshelfChecker();
+			switch (choice) {
+				case 1: //origami book 
+					System.out.println("It's a guide about folding origami using strange materials, such as toilet paper.");
+					if (dieAka == true) {
+						System.out.println("You reach your hand in and grab a roll of toilet paper.");
+						toiletpaper = true; 
+					}
+				break;
 
-		System.out.println("Type next or press enter to return to the library.");
-		next = next();
+				case 2: //wacky guide
+					System.out.println("It's a book about various types of creatures.");
+			} 
+		}
+
+		if (choice == 2) {
 		scenes.push("library");
 		sceneChooser();
+		}
 	}
 
 
@@ -337,4 +378,4 @@ public class PracticeProblem {
 		scenes.push("hallway");
 		sceneChooser();
 	}
-} //this is end of code btw, Angie, so you don't screw up the 
+} //this is end of code btw, Angie, so you don't screw up the brackets
