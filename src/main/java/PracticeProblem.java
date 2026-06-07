@@ -2,11 +2,12 @@
 Title: Culminating
 Name: Angie Seto
 Date Created: June 1, 2026
-Date Updated: June 4, 2026 */
+Date Updated: June 7, 2026 */
 
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.Deque;
+//import java.util.Deque;
+import java.util.ArrayList;
 
 public class PracticeProblem {
 
@@ -16,21 +17,25 @@ public class PracticeProblem {
     public static String next;
 
 	public static boolean metSano = false;
-	public static boolean firstTimeBookshelf = true;
+	public static boolean firstTimeBookshelf = true; //first time looking at bookshelf, triggers demonstration
+	public static boolean chasedBySeimei = false;
+	public static boolean openDoor = false;
 
     public static Stack<String> deaths = new Stack<>(); //keep track of most recent death 
         /* Fell = died to falling out of the library
             Lost = died in endless library
             Wall = crashed into wall from Seimei's chase
             Aka = died in bathroom */
+	//check what books you've unlocked + how you died
     public static boolean fellOut = false;
 	public static boolean gotLost = false;
 	public static boolean crashed = false;
-	public static boolean deathToAka = false;
+	public static boolean dieAka = false;
 
 	public static Stack<String> scenes = new Stack<>(); //keep track of what scene we want to go to next etc.
+	ArrayList<Integer> books = new ArrayList<Integer>(); //keep track of how many books you've unlocked basically -> use to expand the number of options for the bookshelf choice
 
-	public static void sceneChooser() {
+	public static void sceneChooser() { //the scene chooser 
 		String scene = scenes.peek().toLowerCase();
 
 		while (!(scene.isEmpty())) {
@@ -54,7 +59,7 @@ public class PracticeProblem {
 		//Start menu
 		Scanner input = new Scanner(System.in);
 		
-		System.out.println("Welcome to 'Book of Doll'!");
+		// System.out.println("Welcome to 'Book of Doll'!");
 
 		// System.out.println("What's your name?");
 		// name = input.nextLine();
@@ -95,6 +100,23 @@ public class PracticeProblem {
 		do{
 			choice = 0;
 			choice = input.nextInt();
+
+
+		} while (!(choice > small number) && !(choice < big number));
+		
+		return choice;
+	}
+
+	public static int bookshelfChecker () { //checks and expands for more than 2 answers as bookshelf expands 
+		Scanner input = new Scanner(System.in);
+		int choice = 0; 
+
+		while (!(input.hasNextInt())) { //make sure input is definitely an int
+			input.nextLine(); //clear scanner
+		}
+		do{
+			choice = 0;
+			choice = input.nextInt();
 		} while (!(choice == 1) && !(choice == 2));
 		
 		return choice;
@@ -104,12 +126,12 @@ public class PracticeProblem {
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
-		System.out.println("1. Wake up now" + "\n2. Don't wake up");
+		System.out.println("1. Wake up now\n2. Don't wake up");
 		choice = choiceChecker();
 
 		if (choice == 2) { //don't wake
 			System.out.println("Choosing apathy, you fall back into slumber. You hear a rustling, like something is moving closer.");
-			System.out.println("1. Wake up" + "\n2. Stay asleep"); 
+			System.out.println("1. Wake up\n2. Stay asleep"); 
 			
 			choice = choiceChecker(); //check again for choice
 				if (choice == 2) { //stay asleep
@@ -154,7 +176,7 @@ public class PracticeProblem {
 		System.out.println("\nThe ceiling is also completely open, revealing a starry evening. A part of you wonders how that's possible.");
 	
 		switch (turn) { //flavour text about counter books
-			case 0: System.out.print("\n There's a counter with one book on it."); break;
+			case 0: System.out.print("\nThere's a counter with one book on it."); break;
 			case 1: System.out.print("\nThere's a counter with two books on it."); break;
 			case 2:	System.out.print("\nThere's a counter with three books on it. Soon enough, they'll have a proper stack."); break;
 			case 3: System.out.print("\nTHere's a counter with a stack of books on it. You're going to stop counting..."); break;
@@ -192,7 +214,7 @@ public class PracticeProblem {
 				case 0:
 					System.out.println("You frown. You didn't hear it at all, however it was too awkward to ask him to repeat. You stare at him again in silence, squinting as if that would magically give you his name.");
 					next = next();
-					System.out.println("\n'Yakubyougami' You brain helpfully supplies. Thank you, brain.\n\nYou had no clue what a 'Yakubyougami' was nor did you know why you knew that word, but regardless, you decided his name must've been Mr. Yakubyougami.");
+					System.out.println("\n'Yakubyougami' Your brain helpfully supplies. Thank you, brain.\n\nYou had no clue what a 'Yakubyougami' was nor did you know why you knew that word, but regardless, you decided his name must've been Mr. Yakubyougami.");
 				break;
 
 				case 1: System.out.println("\nYou tried your best to listen attentively this time, but you still had no clue what his name was. He was still Mr. Yakugyougami then."); break;
@@ -223,7 +245,7 @@ public class PracticeProblem {
 				sceneChooser();
 			}
 	
-			System.out.println("\"Actually, since you're here. Could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
+			System.out.println("\"Actually, since you're here, could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
 
 			if (turn == 1) { //extra dialogue option for the first death
 				System.out.println("You still feel unsettled. Maybe you should ask him to confirm.");
@@ -249,7 +271,7 @@ public class PracticeProblem {
 				sceneChooser();
 			break;
 
-			case 2:	//continue to shelf
+			case 2:	//continue to hall
 				System.out.println("With nothing else to do, you decide to head over to the hallway.");
 				scenes.push("hallway");
 				sceneChooser();
@@ -265,32 +287,54 @@ public class PracticeProblem {
 			next = next();
 			System.out.println("Hesitantly, you touch the rippling surface. Your finger sinks into the surface and you pluck the vegetable out of the dirt by the leaves. It screams insults at you and bites your finger." +
 			"\n\n\"Yeowch!\" you yelp, dropping the book and falling on your butt. Leaves scatter around you as the book closes. You rub your finger. Thankfully, it didn't draw blood."); 
-			System.out.println("You get up. Okay...maybe you could do something like that with other books too...");
+			System.out.println("You get up. Okay...maybe you could do something like that with other books too...\n");
 			firstTimeBookshelf = false;
 		}
 
 		System.out.println("1.[Origami with Unusual Materials]\n2.[Laidback Guide to the Wacky and Wysterious]\n3.[Ritual Book]");
-		if (aka == true) {
 
+		if (chasedBySeimei == true) {
+			System.out.println("4.[Catalog of Sailor Uniforms Over the Ages]");
 		}
+	
+		if (dieAka == true) {
+			System.out.println("5.[That Time I Was a Whale, and I Ate a Guy's Leg]\n6.[Bloody Baking]");
+		}//reading bloody baking or birthday after reading chalk prince will allow you to get cake
 
+		if (openDoor == true) {
+			System.out.println("7.[Lit Birthday Etiquette]\n8.[The Chalk Prince]\n9.[Scissor Serial]");
+		}
+		//probably use growing array to keep track of how many books you currently have in the 
+		// library, + make another choice method for the bookshelf specifically to pick numbers
 
-		
+		//
+
+		System.out.println("Type next or press enter to return to the library.");
+		next = next();
+		scenes.push("library");
+		sceneChooser();
 	}
+
 
 	public static void hallway() {
 		System.out.println("========HALLWAY========");
 
-	
+
+		scenes.push("library");
+		sceneChooser();
 	}
 
 	public static void office() {
 		System.out.println("========OFFICE========");
 
+		scenes.push("hallway");
+		sceneChooser();
 	}
 
 	public static void bathroom() {
 		System.out.println("========BATHROOM========");
 
+		scenes.push("hallway");
+		sceneChooser();
 	}
-}
+} //this is end of code btw, Angie, so you don't screw up the 
