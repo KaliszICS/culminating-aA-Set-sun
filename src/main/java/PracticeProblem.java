@@ -20,6 +20,7 @@ public class PracticeProblem {
 	//Event checkers -> have you done this event yet?
 	public static boolean metSano = false;
 	public static boolean firstTimeBookshelf = true; //first time looking at bookshelf, triggers demonstration
+	public static boolean readRitualBook = false;
 	public static boolean chasedBySeimei = false;
 	public static boolean openDoor = false;
 
@@ -298,6 +299,8 @@ public class PracticeProblem {
 			firstTimeBookshelf = false;
 		}
 
+		System.out.println("You walk up to the nearest bookshelf. The Ritual Book draws your attention...");
+
 		//------CHOOSING BOOKS-----------------------------------------------------
 		books.clear(); //clear books
 		System.out.println("1.[Origami with Unusual Materials]\n2.[Laidback Guide to the Wacky and Wysterious]\n3.[Ritual Book]");
@@ -325,7 +328,7 @@ public class PracticeProblem {
 			books.add(9);
 		}
 
-		System.out.println("1. Read a book\n2.Return to the library");
+		System.out.println("\n1. Read a book\n2.Return to the library");
 		choice = choiceChecker();
 		
 		if (choice == 1) {
@@ -343,7 +346,7 @@ public class PracticeProblem {
 				case 2: //wacky guide
 					System.out.println("It's a book about various types of creatures. You flip to a random page.");
 					Random random = new Random(); //random pages
-					int page = random.nextInt(8);
+					int page = random.nextInt(7);
 
 					switch (page) {
 						case 1: //Sano's page
@@ -356,7 +359,7 @@ public class PracticeProblem {
 						break;
 						case 3: //Aka Manto's page
 							System.out.println("====PAGE 4====");
-							System.out.println("\"\nAka Manto is a ghost who haunts bathrooms without toilet paper. A figure with a ghastly red cloak will arrive and offer red or blue toilet paper" + 
+							System.out.println("\n\"Aka Manto is a ghost who haunts bathrooms without toilet paper. A figure with a ghastly red cloak will arrive and offer red or blue toilet paper" + 
 							" before delivering a harsh punishment. How unhelpful!\"");
 						break;
 						case 4: //Dodomeki's page
@@ -365,7 +368,8 @@ public class PracticeProblem {
 						
 						case 5: //Ichijama page
 							System.out.println("====PAGE 14===="); 
-							System.out.println("\"An icihijama is a curse, but the term also refers to the family line that posesses the knowledge on how to create and manifest a ichijama butokii.\"");break;
+							System.out.println("\"An icihijama is a curse, but the term also refers to the family line that posesses the knowledge on how to create and manifest a ichijama butokii." +
+							" A spirit resembling the caster will visit the target and deliver a gift. After recieving the gift, the target develops an unidentifiable disease.\""); break;
 						
 						case 6: //Mandragora page
 							System.out.println("====PAGE 300===");
@@ -376,21 +380,82 @@ public class PracticeProblem {
 							System.out.println("====PAGE 41====");
 							System.out.println("\"There exists a library that contains every book in the world, including every living creature's story."+ 
 							" Nobody knows where it is, but it's possible this library is disguised as a regular bookstore?\""); break;
-
-							/*1. Sano's page
-							2. Seimei's page
-							3. Aka Manto's page
-							4. Dodomeki page
-							5. Ichijama page
-							6. mArshmallow  page
-							7. Library */
 					}
+				break;
+
+				case 3: //ritual book
+					readRitualBook = true;
+					System.out.println("It's a book on exorcisms. There are instructions.");
+					System.out.println("\"1. Draw a pentagram with chalk\"");
+					System.out.println("\"2. Place and light five candles on each point of the star\"");
+					System.out.println("\"3. Place a piece of an exorcist in the center along with the cursed item or person\"");
+					System.out.println("\"4. Chant and start praying to whoever you believe in\"");
+				break;
+
+				case 4: //sailor catalog
+					System.out.println("It's as the title says. It's a book about different types of sailor uniforms through different eras.");
+					
+					if ((chasedBySeimei = true) && (toiletpaper = false)) { //chased by Seimei, haven't gotten toilet paper
+						System.out.println("Mr. Sunshine would probably like this. You reach your hand into a random page and pull out a whole sailor uniform. You hastily wear it over your blazer uniform.");
+						sailorUni = true;
+					}
+				break;
+
+				case 5: //whale book
+					System.out.println("It's a comical retelling of a famous book about a whale.");
+
+					if ((toiletpaper = true) && (redpaper = false) && (sailorUni = false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+						System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
+						bluepaper = true;
+					}
+				break;
+
+				case 6: //baking book
+					System.out.println("It's a cookbook for red cakes themed after horror movies.");
+				
+					if ((toiletpaper = true) && (bluepaper = false) && (sailorUni = false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+						System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
+						redpaper = true;
+					}
+
+					if (openDoor = true && (cake = false)) {
+						System.out.println("You reach in and pull out a slice of cake. Yum.");
+						cake = true;
+					}
+				break;
+
+				case 7: //birthday book
+					System.out.println("It's a book about how to pull off the best birthday parties, specifically with fire.");
+					
+					if (openDoor = true && (cake = false)) {
+						System.out.println("You reach in and pull out a slice of cake. Yum.");
+						cake = true;
+					}
+
+					if (openDoor = true) {
+						System.out.println(); //ANGIE YOU'RE DOWN HERE HEY HEY REMEMEBR THIS 
+					}
+
+				break;
+
+
+
+
 			} 
+		
+		scenes.push("bookshelf"); //return to bookshelf selection
+		sceneChooser();
 		}
+		next = next();
 
 		if (choice == 2) {
-		scenes.push("library");
-		sceneChooser();
+			if (readRitualBook = false) { //haven't read ritual book yet
+				System.out.println("You move to leave...but you feel like you're missing something. The Ritual Book is calling your name...not that you knew what your name was.");
+				scenes.push("bookshelf");
+				sceneChooser();
+			}
+			scenes.push("library"); //return to libary
+			sceneChooser();
 		}
 	}
 
