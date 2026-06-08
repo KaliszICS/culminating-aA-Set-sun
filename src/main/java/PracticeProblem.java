@@ -21,6 +21,7 @@ public class PracticeProblem {
 	public static boolean metSano = false;
 	public static boolean firstTimeBookshelf = true; //first time looking at bookshelf, triggers demonstration
 	public static boolean readRitualBook = false;
+	public static boolean readChalkPrince = false;
 	public static boolean chasedBySeimei = false;
 	public static boolean openDoor = false;
 
@@ -45,10 +46,12 @@ public class PracticeProblem {
 	public static boolean redCloak = false;
 	public static boolean sailorUni = false;
 
+	//ritual items
 	public static boolean chalk = false;
 	public static boolean cake = false;
 	public static boolean scissors = false;
 	public static boolean candlesAndLighter = false;   
+	public static boolean seimeiHair = false;
 
 	public static int cruelty = 0; 
 
@@ -418,7 +421,7 @@ public class PracticeProblem {
 						redpaper = true;
 					}
 
-					if (openDoor = true && (cake = false)) {
+					if ((cake = false) && (readChalkPrince = true) && (chalk = false)) { //don't have cake, has read the Chalk book, don't have chalk
 						System.out.println("You reach in and pull out a slice of cake. Yum.");
 						cake = true;
 					}
@@ -427,20 +430,64 @@ public class PracticeProblem {
 				case 7: //birthday book
 					System.out.println("It's a book about how to pull off the best birthday parties, specifically with fire.");
 					
-					if (openDoor = true && (cake = false)) {
+					if ((cake = false) && (readChalkPrince = true) && (chalk = false)) { //don't have cake, has read the Chalk book, don't have chalk
 						System.out.println("You reach in and pull out a slice of cake. Yum.");
 						cake = true;
 					}
 
 					if (openDoor = true) {
-						System.out.println(); //ANGIE YOU'RE DOWN HERE HEY HEY REMEMEBR THIS 
+						System.out.println("You reach in and pluck 5 candles off the cake and the lighter next to it.");
+						candlesAndLighter = true;
 					}
 
+				break;
+
+				case 8: //chalk book
+					System.out.println("It's an adventure picture book about a little chalk prince wielding a chalk sword. He's on a quest to retrieve the cake for his daisy.");
+				
+					if (readChalkPrince = false) { //first time reading
+						System.out.println("You reach in and try to pluck the chalk sword out of the prince's hands. He nimbly jumps away!");
+						System.out.println("\n\"Excuse me! You can't just steal my sword! I need it for my quest!\" The Chalk Prince speaks.");
+						System.out.println("\nYour brows furrow as you think hard about how to proceed.");
+							
+						readChalkPrince = true;
+					}
+					next = next();
+					while (cake = false) {
+						System.out.println("1. Rob him\n2. Trade him a cake");
+						choice = choiceChecker();
+
+						if (choice == 1) {
+							System.out.println("\n\"Sorry.\" You pick the Chalk Prince up and pull him away from his sword. He struggles fruitlessly against you, but you easily yank the sword away from him.");
+							System.out.println("You close the book as the Chalk Prince begins crying.");
+							cruelty++;
+							chalk = true;
+						}
+
+						if (choice == 2) { //cake quest
+							if (cake = false) { //doesn't have cake yet
+								System.out.println("\n\"Well?\" The Chalk Prince stares at you expectantly.\n\n\"I'll get you a cake.\" You nod.");
+							}
+							else { //have a cake
+								System.out.println("\n\"Here you go!\" You offer the cake into the book. It's bigger than the Chalk Prince but he celebrates.\n\n\"Thank you, kind lad! Please, have my sword!\" He holds up his sword for you. You smile and take the sword from him.");									chalk = true;
+								cruelty--;
+							}
+						} //end of cake quest
+					}
+				break;
+				case 9: //Scissor book
+					System.out.println("It's a horror story about a classic slasher who uses scissors.");
+
+					while (scissors = false) {
+						System.out.println("You reach in and pull out a pair of scissors.");
+						scissors = true;
+					}
 				break;
 
 
 
 
+			
 			} 
 		
 		scenes.push("bookshelf"); //return to bookshelf selection
@@ -461,6 +508,23 @@ public class PracticeProblem {
 
 	public static void hallway() {
 		System.out.println("========HALLWAY========");
+		System.out.println("\nYou're in a regular hallway. The ceiling is closed here with fluorescent lights dimly lighting the hallway.");
+		System.out.println("\nThere are two doors down the hall.");
+
+		System.out.println("1. Enter the office\n2. Enter the bathroom");
+		choice = choiceChecker();
+		switch (choice) {
+			case 1: 
+				while (openDoor = false) { 
+					System.out.println("You try the handle, but you instantly fall backwards on your butt. Ow!");
+					System.out.println("\nYou look up to see there's a paper with characters on it hanging on the door. It reads that it's intended for protection." + 
+					" You rub your butt, getting onto your feet.\n\n\"HELP HELP\"");
+				}
+			break;
+		}
+
+
+	
 
 
 		scenes.push("library");
