@@ -77,22 +77,22 @@ public class PracticeProblem {
 		//Start menu
 		Scanner input = new Scanner(System.in);
 		
-		// System.out.println("Welcome to 'Book of Doll'!");
+		System.out.println("Welcome to 'Book of Doll'!");
 
-		// System.out.println("What's your name?");
-		// name = input.nextLine();
+		System.out.println("What's your name?");
+		name = input.nextLine();
 
-		// System.out.println("Please type Start to begin.");
-		// String nextChoice = "";
+		System.out.println("Please type Start to begin.");
+		String nextChoice = "";
 
-		// do{ //make sure they actually type start!!
-		// 	nextChoice = input.nextLine();
-		// } while (!((nextChoice.equalsIgnoreCase("start"))));
+		do{ //make sure they actually type start!!
+			nextChoice = input.nextLine();
+		} while (!((nextChoice.equalsIgnoreCase("start"))));
 
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
 
-		scenes.push("library");
+		scenes.push("scene1");
 		sceneChooser();
 			
 	}
@@ -142,22 +142,24 @@ public class PracticeProblem {
 	public static void firstScene () { //the first waking scene 
 		Scanner input = new Scanner(System.in);
 
-		switch (deaths.peek()) {
-			case ("Fell"): System.out.println("\n====FELL====");
-				System.out.println("You remember falling into an endless void, but you're back. Maybe you should try lying to him for now..."); 
-			break;
+		if (turn > 0) {
+			switch (deaths.peek()) {
+				case ("Fell"): System.out.println("\n====FELL====");
+					System.out.println("You remember falling into an endless void, but you're back. Maybe you should try lying to him for now..."); 
+				break;
 
-			case ("Lost"): System.out.println("\n====LOST====");
-				System.out.println("You remember getting lost in that endless library, but you're back. Maybe you should try not running into the endless libary...");
-			break;
+				case ("Lost"): System.out.println("\n====LOST====");
+					System.out.println("You remember getting lost in that endless library, but you're back. Maybe you should try not running into the endless libary...");
+				break;
 
-			case ("Wall"): System.out.println("\n====CRASH====");
-				System.out.println("You remember crashing into that wall while running from the Uniform Fiend, but you're back. Maybe you should stop looking back...");
-			break;
+				case ("Wall"): System.out.println("\n====CRASH====");
+					System.out.println("You remember crashing into that wall while running from the Uniform Fiend, but you're back. Maybe you should stop looking back...");
+				break;
 
-			case ("Aka"): System.out.println("\n====TOILET====");
-				System.out.println("You don't want to remember that. You need to cover up your uniform. Maybe his red cloak will do, if you could just get it off him...");
-			break;
+				case ("Aka"): System.out.println("\n====TOILET====");
+					System.out.println("You don't want to remember that. You need to cover up your uniform. Maybe his red cloak will do, if you could just get it off him...");
+				break;
+			}
 		}
 
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
@@ -606,11 +608,11 @@ public class PracticeProblem {
 			case 1: //enter office
 				if (openDoor == false) { //haven't opened door yet
 					triedDoor = true; //you have tried to open the door
-					System.out.println("You try the handle, but you instantly fall backwards on your butt because you're dumb.");
+					System.out.println("You try the handle, but you instantly fall backwards on your butt because you're dumb. Maybe you tripped over your own feet while standing still.");
 					System.out.println("\nYou look up to see there's a paper with characters on it hanging on the door. It reads that it's intended for protection." + 
-					"You're not sure how you understood that. You rub your butt, getting onto your feet.");
+					" You're not sure how you understood that. You rub your butt, getting onto your feet.");
 					next = next();
-					System.out.println("Huh, I guess the owner is superstitious,\" you grumble. Oh well. That means you should return to Mr. Yakubyougami for now.");
+					System.out.println("\"Huh, I guess the owner is superstitious,\" you grumble. Oh well. That means you should return to Mr. Yakubyougami for now.");
 					next = next();
 
 					scenes.push("library");
@@ -646,7 +648,7 @@ public class PracticeProblem {
 				System.out.println("You run into the aisles of shelves. It doesn't take long for you to lose him.");
 				System.out.println("\nYou turn around. You can't see anything familair. You begin trying to retrace your steps.");
 				
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 3; i++) {
 					next = next();
 					System.out.println(".");
 				}
