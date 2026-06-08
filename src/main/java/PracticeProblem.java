@@ -4,11 +4,10 @@ Name: Angie Seto
 Date Created: June 1, 2026
 Date Updated: June 7, 2026 */
 
-import java.util.Scanner;
-import java.util.Stack;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class PracticeProblem {
 
@@ -19,21 +18,25 @@ public class PracticeProblem {
 
 	//Event checkers -> have you done this event yet?
 	public static boolean metSano = false;
+	
 	public static boolean firstTimeBookshelf = true; //first time looking at bookshelf, triggers demonstration
 	public static boolean readRitualBook = false;
+	
+	public static boolean triedDoor = false;
+	public static boolean metSeimei = false;
+	public static boolean openDoor = false; //opens final 3 books
+	
 	public static boolean readChalkPrince = false;
-	public static boolean chasedBySeimei = false;
-	public static boolean openDoor = false;
+
 
     public static Stack<String> deaths = new Stack<>(); //keep track of most recent death 
         /* Fell = died to falling out of the library
             Lost = died in endless library
             Wall = crashed into wall from Seimei's chase
             Aka = died in bathroom */
-	//check what books you've unlocked + how you died
+	//check what books you've unlocked or how you died
+	public static boolean chasedBySeimei = false;
     public static boolean fellOut = false;
-	public static boolean gotLost = false;
-	public static boolean crashed = false;
 	public static boolean dieAka = false; //this is technically an event
 
 	public static Stack<String> scenes = new Stack<>(); //keep track of what scene we want to go to next etc.
@@ -64,6 +67,7 @@ public class PracticeProblem {
 				case ("library"): library(); break;
 				case ("bookshelf"): bookshelf(); break;
 				case ("hallway"): hallway(); break;
+				case ("chase"): chase(); break;
 			}
 		}
 	}
@@ -123,7 +127,6 @@ public class PracticeProblem {
 		Scanner input = new Scanner(System.in);
 		int choice = 0; 
 		System.out.println(books);
-		System.out.println(books.size());
 
 		while (!(input.hasNextInt())) { //make sure input is definitely an int
 			input.nextLine(); //clear scanner
@@ -139,6 +142,24 @@ public class PracticeProblem {
 	public static void firstScene () { //the first waking scene 
 		Scanner input = new Scanner(System.in);
 
+		switch (deaths.peek()) {
+			case ("Fell"): System.out.println("\n====FELL====");
+				System.out.println("You remember falling into an endless void, but you're back. Maybe you should try lying to him for now..."); 
+			break;
+
+			case ("Lost"): System.out.println("\n====LOST====");
+				System.out.println("You remember getting lost in that endless library, but you're back. Maybe you should try not running into the endless libary...");
+			break;
+
+			case ("Wall"): System.out.println("\n====CRASH====");
+				System.out.println("You remember crashing into that wall while running from the Uniform Fiend, but you're back. Maybe you should stop looking back...");
+			break;
+
+			case ("Aka"): System.out.println("\n====TOILET====");
+				System.out.println("You don't want to remember that. You need to cover up your uniform. Maybe his red cloak will do, if you could just get it off him...");
+			break;
+		}
+
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
 		System.out.println("1. Wake up now\n2. Don't wake up");
 		choice = choiceChecker();
@@ -153,7 +174,7 @@ public class PracticeProblem {
 					System.exit(0);
 				}
 				else { //wake up
-					System.out.println("Yout eyes snap open. You sit up, looking around. There's nothing around you but still roots.");
+					System.out.println("Your eyes snap open. You sit up, looking around. There's nothing around you but still roots.");
 					System.out.println("Strange.");
 				}
 		} //end of small sleepy time detour 
@@ -187,7 +208,7 @@ public class PracticeProblem {
 
 	public static void library () {
 		System.out.println("========LIBRARY========");
-		System.out.println("\nYou're in a huge open library. It looks the same as a regular library, but there are trees and greenery mixed in between the towering, seemingly endless shelves. Roots crawl against the wooden floorboards.");
+		System.out.println("You're in a huge open library. It looks the same as a regular library, but there are trees and greenery mixed in between the towering, seemingly endless shelves. Roots crawl against the wooden floorboards.");
 		System.out.println("\nThe ceiling is also completely open, revealing a starry evening. A part of you wonders how that's possible.");
 	
 		switch (turn) { //flavour text about counter books
@@ -246,16 +267,17 @@ public class PracticeProblem {
 					" \n\n\"Maybe you get some fresh air. I'm afraid you have to leave.\" He firmly pushes you out. You resist, but he's stronger than you. He opens the door and you fall into the darkness again.");
 				} 
 				else { //haven't died from falling before
-					System.out.println("\nYou frown as he speaks, but you get distracted. \n\nThere's a door you hadn't noticed behind Mr. Yakubyougami. \n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
+					System.out.println("\nYou frown as he speaks, but you get distracted. There's a door you hadn't noticed behind Mr. Yakubyougami.\n\n\"Nevermind. I think that's my exit.\" You hurry towards the exit with a smile. You open the door and step outside. Except there's no outside. You fall into the darkness.");
 					fellOut = true; //died once to falling 
 				}
+				next = next();
 				turn++;
 				deaths.push("Fell"); //died to falling, most recent
 				scenes.push("scene1"); //go back to scene 1
 				sceneChooser();
 			}
 	
-			System.out.println("\"Since you're here, could you fetch me the book sign-out records? They should be in the office.\" Sano gestures to a hallway beside the counter.");
+			System.out.println("\"Since you're here, could you fetch me the book sign-out records? They should be in the office.\" Mr. Yakubyougami gestures to a hallway beside the counter.");
 
 			if (turn == 1) { //extra dialogue option for the first death
 				System.out.println("\nYou still feel unsettled. Maybe you should ask him to confirm.");
@@ -266,23 +288,93 @@ public class PracticeProblem {
 					System.out.println("\n\"Did I just die?\" you blurt out. " + 
 					"\n\nMr. Yakubyougami gives you a strange look that suggests he thinks you've lost your mind. Maybe you have. " +
 					"\n\n\"What...? Do you need a break...? If not, just get to work.\" He walks away and you lose him almost instantly among the shelves. Ugh...");
+				} else {
+					System.out.println("Mr. Yakubyougami walks away without a word.");
 				}
 			}
 			metSano = true;
 		} //end of Sano's first scene
 
+		while (triedDoor == true) {
+			System.out.println("\nYou return and explain the door situation to Mr. Yakubyougami.");
+			System.out.println("\n\"I wasn't expecting that. Hmm...\" Mr. Yakubyougami mutters. He thinks for a bit before looking over to the shelves. \"That idiot who just arrived should be able to help you. Hey, Abe...!\" Mr. Yakubyougami calls someone over. Again, you couldn't hear what his name was.");
+			next = next();
+			if (metSeimei == false) { //first time meeting
+				System.out.println("\nA tall man with black hair and large ahoge (or cowlick) pops his head out from the shelves with a bright close-eyed smile. He's wearing a white shirt and striped tie, suggesting he's a professional of some sort.");
+				next = next();
+				System.out.println("\nYou cover your eyes at his blinding smile. Since you missed his name...somehow...you decide to call him Mr. Sunshine. The joy radiating off of him was too much!");
+				metSeimei = true;
+			} else {
+				System.out.println("\nMr. Sunshine pops his head out from the shelves with a bright close-eyed smile. He's wearing a white shirt and striped tie, suggesting he was a teacher.");
+			}
+		
+			System.out.println("\nHe greets Mr. Yakubyougami cheerfully with a name you can't hear. Mr. Yakubyougami looks begrudgingly bashful at Mr. Sunshine's overwhelming joy.");
+			next = next();
+			if (sailorUni == false || redCloak == false) { //start Seimei chase
+				System.out.println("\nHe stops suddenly as he finally looks at you.");
+				System.out.println("\n\"I-Is that...IT'S A BLAZER UNIFORM???? GYAHHHHHHH!!\" His energy changes in an instant. You look down at what you're wearing and back at him. He charges at you.");
+				System.out.println("\nIn response to that, you turn on your heels and RUN!");
+				next = next();
+				chasedBySeimei = true;
+
+				scenes.push("chase");
+				sceneChooser();
+
+			} else if (sailorUni == true) { //has sailor uniform
+				System.out.println("\nHe stops suddenly as he finally looks at you.");
+				System.out.println("\n\"I-Is that...IT'S A SAILOR UNIFORM!! EEEEEEEEEEP! Oh, it's so beautiful!\" Mr. Sunshine's eyes light up. He squeals and circles you rapidly, looking over the uniform.");
+				System.out.print(" You stand awkwardly and stare at Mr. Yakubyougami, who looks as embarassed as you feel.");
+				next = next();
+			
+				System.out.println("\n\"Um, so Mr. Sunshine, can you help me open the office door?\" You clear your throat.\n\n\"Of course!\" Mr. Sunshine happily skips towards the hallway. You follow after him.");
+				next = next();
+
+				System.out.println("\nMr. Sunshine walks up to the office door. You expected him to pull out a key, but all he does is try the knob. The paper ward flutters off. Mr. Sunshine easily pushes open the door.");
+				System.out.println("\n\"Oh, the handle was a bit heavy. It's no problem though! I'll see you around!\" Mr. Sunshine grins. He leaves.");
+				next = next();
+
+				openDoor = true;
+				scenes.push("office");
+				sceneChooser();
+			} else if (redCloak == true) { //has red cloak
+				System.out.println("\n\"Oh, it's nice to meet you! I'm...\" Mr. Sunshine introduces himself. You stare at him, nodding slowly. He continues talking.");
+				System.out.println("\n\"You look around my students' age, um, although some of them don't look their age.\" Mr. Sunshine laughs, glancing at Mr. Yakubyougami who deadpans at him.");
+				System.out.println("\n\"Can you go with them to open the office door?\" Mr. Yakubyougami clears his throat, tapping his foot impatiently.\n\n\"Oh, sure!\" Mr. Sunshine walks towards the hallway. You follow after him.\"\n");
+				next = next();
+				
+				System.out.println("\nMr. Sunshine walks up to the office door. You expected him to pull out a key, but all he does is try the knob. The paper ward flutters off. Mr. Sunshine easily pushes open the door.");
+				System.out.println("\n\"Oh, the handle was a bit heavy. It's no problem though! I'll see you around!\" Mr. Sunshine grins. He leaves.");
+				next = next();
+				
+				openDoor = true;
+				scenes.push("office");
+				sceneChooser();
+
+			}
+			triedDoor = false;
+		}
 		System.out.println("1. Look at bookshelf\n2. Continue to the hallway");
 		choice = choiceChecker();
 
 		switch (choice) {
 			case 1: //look at shelf
 				System.out.println("You look at the bookshelf.");
+
+				next = next();
 				scenes.push("bookshelf");
 				sceneChooser();
 			break;
 
 			case 2:	//continue to hall
+				if (firstTimeBookshelf == true) { //haven't looked at shelf yet
+					System.out.println("There's still something you're curious about. Maybe you should go check out the bookshelf before you move on.");
+					next = next();
+					scenes.push("library");
+					sceneChooser();
+				}
+
 				System.out.println("With nothing else to do, you decide to head over to the hallway.");
+				next = next();
 				scenes.push("hallway");
 				sceneChooser();
 			break;
@@ -300,6 +392,7 @@ public class PracticeProblem {
 			System.out.println("\n\"Yeowch!\" you yelp, dropping the book and falling on your butt. Leaves scatter around you as the book closes. You rub your finger. Thankfully, it didn't draw blood."); 
 			System.out.println("\nYou get up. Okay...maybe you could do something like that with other books too...\n");
 			firstTimeBookshelf = false;
+			next = next();
 		}
 
 		System.out.println("You walk up to the nearest bookshelf. The Ritual Book draws your attention...");
@@ -311,12 +404,11 @@ public class PracticeProblem {
 		books.add(2);
 		books.add(3);
 
-		chasedBySeimei = true;
 		if (chasedBySeimei == true) {
 			System.out.println("4.[Catalog of Sailor Uniforms Over the Ages]");
 			books.add(4);
 		}
-	
+
 		if (dieAka == true) {
 			System.out.println("5.[That Time I Was a Whale, and I Ate a Guy's Leg]\n6.[Bloody Baking]");
 			books.add(5);
@@ -334,6 +426,17 @@ public class PracticeProblem {
 		System.out.println("\n1. Read a book\n2.Return to the library");
 		choice = choiceChecker();
 		
+		if (choice == 2) {
+			while (readRitualBook == false) { //haven't read ritual book yet
+				System.out.println("You move to leave...but you feel like you're missing something. The Ritual Book is calling your name...not that you knew what your name was.");
+				next = next();
+				scenes.push("bookshelf");
+				sceneChooser();
+			}
+			scenes.push("library"); //return to libary
+			sceneChooser();
+		}
+
 		if (choice == 1) {
 			System.out.print("Enter the book number: ");
 			choice = bookshelfChecker();
@@ -354,15 +457,15 @@ public class PracticeProblem {
 					switch (page) {
 						case 1: //Sano's page
 							System.out.println("====PAGE 7====");
-							System.out.println("\"\nYakubyougami are malevolent spirits who spread disease and misfortune to others around them. They are also known as 'God of Plague'.\"");
+							System.out.println("\"Yakubyougami are malevolent spirits who spread disease and misfortune to others around them. They are also known as 'Gods of Plague'.\"");
 						break;
 						case 2: //Seimei's page
 							System.out.println("====PAGE 21====");
-							System.out.println("\"\nOnmyojis are historically powerful diviners who occasionally perform tasks like cleansing to get rid of bad youkai! The Abe family is one of the most well-known.\""); 
+							System.out.println("\"Onmyojis are historically powerful diviners who occasionally perform tasks like cleansing to get rid of bad youkai! The Abe family is one of the most well-known.\""); 
 						break;
 						case 3: //Aka Manto's page
 							System.out.println("====PAGE 4====");
-							System.out.println("\n\"Aka Manto is a ghost who haunts bathrooms without toilet paper. A figure with a ghastly red cloak will arrive and offer red or blue toilet paper" + 
+							System.out.println("\"Aka Manto is a ghost who haunts bathrooms without toilet paper. A figure with a ghastly red cloak will arrive and offer red or blue toilet paper" + 
 							" before delivering a harsh punishment. How unhelpful!\"");
 						break;
 						case 4: //Dodomeki's page
@@ -379,7 +482,7 @@ public class PracticeProblem {
 							System.out.println("\"Mandragoras, otherwise known as mandrakes, are poisonous plant creatures who resemble radishes, but they hate being mistaken as anything but mandragoras." + 
 							" They shriek when pulled out of the ground.\""); break;
 
-						case 7: //Library page
+						default: //Library page
 							System.out.println("====PAGE 41====");
 							System.out.println("\"There exists a library that contains every book in the world, including every living creature's story."+ 
 							" Nobody knows where it is, but it's possible this library is disguised as a regular bookstore?\""); break;
@@ -393,12 +496,14 @@ public class PracticeProblem {
 					System.out.println("\"2. Place and light five candles on each point of the star\"");
 					System.out.println("\"3. Place a piece of an exorcist in the center along with the cursed item or person\"");
 					System.out.println("\"4. Chant and start praying to whoever you believe in\"");
+					
+					System.out.println("\nHuh. Interesting. You take note of the book. It wouldn't be bad to prepare for it anyways, regardless of if you're performing it or not.");
 				break;
 
 				case 4: //sailor catalog
 					System.out.println("It's as the title says. It's a book about different types of sailor uniforms through different eras.");
 					
-					if ((chasedBySeimei = true) && (toiletpaper = false)) { //chased by Seimei, haven't gotten toilet paper
+					if ((chasedBySeimei == true) && (toiletpaper == false)) { //chased by Seimei, haven't gotten toilet paper
 						System.out.println("Mr. Sunshine would probably like this. You reach your hand into a random page and pull out a whole sailor uniform. You hastily wear it over your blazer uniform.");
 						sailorUni = true;
 					}
@@ -407,7 +512,7 @@ public class PracticeProblem {
 				case 5: //whale book
 					System.out.println("It's a comical retelling of a famous book about a whale.");
 
-					if ((toiletpaper = true) && (redpaper = false) && (sailorUni = false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+					if ((toiletpaper == true) && (redpaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
 						System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
 						bluepaper = true;
 					}
@@ -416,12 +521,12 @@ public class PracticeProblem {
 				case 6: //baking book
 					System.out.println("It's a cookbook for red cakes themed after horror movies.");
 				
-					if ((toiletpaper = true) && (bluepaper = false) && (sailorUni = false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+					if ((toiletpaper == true) && (bluepaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
 						System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
 						redpaper = true;
 					}
 
-					if ((cake = false) && (readChalkPrince = true) && (chalk = false)) { //don't have cake, has read the Chalk book, don't have chalk
+					if ((cake == false) && (readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
 						System.out.println("You reach in and pull out a slice of cake. Yum.");
 						cake = true;
 					}
@@ -430,12 +535,12 @@ public class PracticeProblem {
 				case 7: //birthday book
 					System.out.println("It's a book about how to pull off the best birthday parties, specifically with fire.");
 					
-					if ((cake = false) && (readChalkPrince = true) && (chalk = false)) { //don't have cake, has read the Chalk book, don't have chalk
+					if ((cake == false) && (readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
 						System.out.println("You reach in and pull out a slice of cake. Yum.");
 						cake = true;
 					}
 
-					if (openDoor = true) {
+					if (openDoor == true) {
 						System.out.println("You reach in and pluck 5 candles off the cake and the lighter next to it.");
 						candlesAndLighter = true;
 					}
@@ -445,7 +550,7 @@ public class PracticeProblem {
 				case 8: //chalk book
 					System.out.println("It's an adventure picture book about a little chalk prince wielding a chalk sword. He's on a quest to retrieve the cake for his daisy.");
 				
-					if (readChalkPrince = false) { //first time reading
+					if (readChalkPrince == false) { //first time reading
 						System.out.println("You reach in and try to pluck the chalk sword out of the prince's hands. He nimbly jumps away!");
 						System.out.println("\n\"Excuse me! You can't just steal my sword! I need it for my quest!\" The Chalk Prince speaks.");
 						System.out.println("\nYour brows furrow as you think hard about how to proceed.");
@@ -453,7 +558,7 @@ public class PracticeProblem {
 						readChalkPrince = true;
 					}
 					next = next();
-					while (cake = false) {
+					while (cake == false) {
 						System.out.println("1. Rob him\n2. Trade him a cake");
 						choice = choiceChecker();
 
@@ -478,57 +583,94 @@ public class PracticeProblem {
 				case 9: //Scissor book
 					System.out.println("It's a horror story about a classic slasher who uses scissors.");
 
-					while (scissors = false) {
+					while (scissors == false) {
 						System.out.println("You reach in and pull out a pair of scissors.");
 						scissors = true;
 					}
 				break;
-
-
-
-
-			
 			} 
-		
+		next = next();
 		scenes.push("bookshelf"); //return to bookshelf selection
 		sceneChooser();
 		}
-		next = next();
-
-		if (choice == 2) {
-			if (readRitualBook = false) { //haven't read ritual book yet
-				System.out.println("You move to leave...but you feel like you're missing something. The Ritual Book is calling your name...not that you knew what your name was.");
-				scenes.push("bookshelf");
-				sceneChooser();
-			}
-			scenes.push("library"); //return to libary
-			sceneChooser();
-		}
 	}
-
+		
 	public static void hallway() {
 		System.out.println("========HALLWAY========");
-		System.out.println("\nYou're in a regular hallway. The ceiling is closed here with fluorescent lights dimly lighting the hallway.");
+		System.out.println("You're in a regular hallway. The ceiling is closed here with fluorescent lights dimly lighting the hallway.");
 		System.out.println("\nThere are two doors down the hall.");
 
 		System.out.println("1. Enter the office\n2. Enter the bathroom");
 		choice = choiceChecker();
 		switch (choice) {
-			case 1: 
-				while (openDoor = false) { 
-					System.out.println("You try the handle, but you instantly fall backwards on your butt. Ow!");
+			case 1: //enter office
+				if (openDoor == false) { //haven't opened door yet
+					triedDoor = true; //you have tried to open the door
+					System.out.println("You try the handle, but you instantly fall backwards on your butt because you're dumb.");
 					System.out.println("\nYou look up to see there's a paper with characters on it hanging on the door. It reads that it's intended for protection." + 
-					" You rub your butt, getting onto your feet.\n\n\"HELP HELP\"");
+					"You're not sure how you understood that. You rub your butt, getting onto your feet.");
+					next = next();
+					System.out.println("Huh, I guess the owner is superstitious,\" you grumble. Oh well. That means you should return to Mr. Yakubyougami for now.");
+					next = next();
+
+					scenes.push("library");
+					sceneChooser(); //return to library
 				}
+				scenes.push("office");
+				sceneChooser();
+			break;
+
+			case 2: //enter bathroom
+				if (chasedBySeimei == false) {
+					System.out.println("You don't really have to pee or poo right now...and what if a scary ghost drags you down? No way. You leave.");
+					next = next();
+
+					scenes.push("hallway");
+					sceneChooser();
+				}
+				scenes.push("bathroom");
+				sceneChooser();
 			break;
 		}
-
-
-	
-
-
 		scenes.push("library");
 		sceneChooser();
+	}
+
+	public static void chase() {
+		System.out.println("You immediately start booking it away from Mr. Sunshine...or should you call him the Uniform Fiend?! All you hear from behind you are his scary words about how sailor uniforms were superior to blazer uniforms.");
+		System.out.println("1. Run into the libary\n2. Run into the hallway");
+		choice = choiceChecker();
+
+		switch (choice) {
+			case 1: //death
+				System.out.println("You run into the aisles of shelves. It doesn't take long for you to lose him.");
+				System.out.println("\nYou turn around. You can't see anything familair. You begin trying to retrace your steps.");
+				
+				for (int i = 0; i < 4; i++) {
+					next = next();
+					System.out.println(".");
+				}
+
+				System.out.println("You don't know how long you've been here or how long it's been.");
+				System.out.println("\n\"Mr. Yakubyougami? Mr. Sunshine...?\" you call out.");
+				next = next();
+				System.out.println("The vastness does not respond.");
+
+				for (int i = 0; i < 4; i++) {
+					next = next();
+					System.out.println(".");
+				}
+
+				System.out.println("You're tired.");
+				next = next();
+				System.out.println("You lay down. You close your eyes.");
+				turn++;
+
+				deaths.push("Lost");
+				scenes.push("scene1");
+				sceneChooser();
+			break;
+		}
 	}
 
 	public static void office() {
