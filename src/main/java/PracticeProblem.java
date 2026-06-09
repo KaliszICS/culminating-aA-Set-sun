@@ -25,6 +25,8 @@ public class PracticeProblem {
 	public static boolean triedDoor = false;
 	public static boolean metSeimei = false;
 	public static boolean finishChase = false;
+
+	public static boolean waitingForAka = false;
 	public static boolean openDoor = false; //opens final 3 books
 	
 	public static boolean readChalkPrince = false;
@@ -68,6 +70,7 @@ public class PracticeProblem {
 				case ("library"): library(); break;
 				case ("bookshelf"): bookshelf(); break;
 				case ("hallway"): hallway(); break;
+				case ("bathroom"): bathroom(); break;
 				case ("chase"): chase(); break;
 			}
 		}
@@ -80,15 +83,15 @@ public class PracticeProblem {
 		
 		System.out.println("Welcome to 'Book of Doll'!");
 
-		System.out.println("What's your name?");
-		name = input.nextLine();
+		// System.out.println("What's your name?");
+		// name = input.nextLine();
 
-		System.out.println("Please type Start to begin.");
-		String nextChoice = "";
+		// System.out.println("Please type Start to begin.");
+		// String nextChoice = "";
 
-		do{ //make sure they actually type start!!
-			nextChoice = input.nextLine();
-		} while (!((nextChoice.equalsIgnoreCase("start"))));
+		// do{ //make sure they actually type start!!
+		// 	nextChoice = input.nextLine();
+		// } while (!((nextChoice.equalsIgnoreCase("start"))));
 
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
@@ -799,13 +802,14 @@ public class PracticeProblem {
 					scenes.push("scene1");
 					sceneChooser();
 				} else {
+					finishChase = true;
 					System.out.println("Making a split-second choice, you spin around on your heel and run backwards. Behind you, you hear the Uniform Fiend crash into the wall.");
 					System.out.println("\nYou quickly enter the first door you see, pushing it open.");
 					next = next();
-					finishChase = true;
 
 					scenes.push("bathroom");
 					sceneChooser();
+					
 				}
 			break;
 		}
@@ -820,10 +824,10 @@ public class PracticeProblem {
 
 	public static void bathroom() {
 		System.out.println("========BATHROOM========");
-		System.out.print("You're in a clean looking bathroom. There are four stalls and a weird corner behind the stalls where the light is dimmer.");
+		System.out.print("You're in a clean looking bathroom. There are four stalls and a weird corner behind the stalls where the light is dimmer. None of the stalls appear to have any toilet paper. It's awful.");
 
 		while (finishChase == true) {
-			System.out.println("\nYou run into the fourth stall, closing the door behind you. You wait, listening as Mr. Sunshine walks away, wondering aloud where you went.");
+			System.out.println("\n\nYou run into the fourth stall, closing the door behind you. You wait, listening as Mr. Sunshine walks away, wondering aloud where you went.");
 			System.out.println("\nYou sigh in relief, knowing he's left you alone for now. Since you were here, you might as well relieve yourself before you head back out.");
 			next = next();
 			
@@ -890,13 +894,56 @@ public class PracticeProblem {
 			sceneChooser();
 		} //end of chase context Aka
 
-		if (dieAka == true) {
-			System.out.println("\nLast time you were here, you ran into an embarassing situation.");			
-			// System.out.println("1. Return to the hallway");
-		}
-		next = next();
+		System.out.println("\n1. Stay in the bathroom\n2. Return to the hallway");
+		choice = choiceChecker();
 
-		scenes.push("hallway");
-		sceneChooser();
+		switch (choice) {
+			case 1: //stay in bathroom
+			
+			while (waitingForAka == false) {
+				if (dieAka == true) {
+					waitingForAka = true;
+					System.out.println("\nLast time you were here, you ran into an embarassing situation.");			
+						
+					System.out.println("\nThis time...you have a plan. You decide wait out in a different stall.");
+						
+					for (int i = 0; i < 3; i++) {
+					next = next();
+					System.out.println(".");
+					}
+
+					System.out.println("You hear footsteps and see the shuffling red cloak. Aka Manto stands in front of the fourth stall.");
+					System.out.println("\n\"...\" You hold your breath.");
+					
+					for (int i = 0; i < 3; i++) {
+					next = next();
+					System.out.println(".");
+					}
+
+					System.out.println("After a moment, you hear a click as Aka Manto enters the stall.\n\n\"I guess there's nobody in here...\" Aka Manto sighs aloud in his stall.");
+					System.out.println("\nYou feel awkward, listening in on him as he uses the bathroom. He flushes, and then there's silence.");
+					next = next();
+						
+					System.out.println("\"Is anybody there?! There's no toilet paper!\" You hear him call out after a minute.");
+				}
+					
+			}
+			System.out.println("\nHe's still stuck in the stall. You could get revenge and steal his red cloak to cover up your uniform.");
+			next = next();
+			
+			scenes.push("hallway");
+			sceneChooser();
+		
+			break;
+
+			case 2:
+			System.out.println("You turn around and exit the bathroom.");
+			next = next();
+			
+			scenes.push("hallway");
+			sceneChooser();
+			break;
+		}
+
 	}
 } //this is end of code btw, Angie, so you don't screw up the brackets
