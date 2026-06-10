@@ -1117,7 +1117,7 @@ public class PracticeProblem {
 							next = next();
 							System.out.println(".");
 						}
-						System.out.println("====" + cruelty + "CRUELTY POINTS====");
+						System.out.println("====" + cruelty + " CRUELTY POINTS====");
 
 						if (cruelty > 0) { //BAD END
 							badEnd = true;
