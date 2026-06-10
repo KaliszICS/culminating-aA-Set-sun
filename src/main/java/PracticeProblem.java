@@ -519,12 +519,14 @@ public class PracticeProblem {
 		System.out.println("\n1. Read a book\n2. Return to the library");
 		choice = choiceChecker();
 		
+		
 		if (choice == 2) {
 			while (readRitualBook == false) { //haven't read ritual book yet
 				System.out.println("You move to leave...but you feel like you're missing something. The Ritual Book is calling your name...not that you knew what your name was.");
 				next = next();
 				scenes.push("bookshelf");
 				sceneChooser();
+
 			}
 			scenes.push("library"); //return to libary
 			sceneChooser();
@@ -536,7 +538,7 @@ public class PracticeProblem {
 			switch (choice) {
 				case 1: //origami book 
 					System.out.println("It's a guide about folding origami using strange materials, such as toilet paper.");
-					while (toiletPaper == false) {
+					while (toiletPaper == false && sailorUni == false) {
 						if (dieAka == true) {
 							System.out.println("You reach your hand in and grab a roll of toilet paper.");
 							toiletPaper = true; 
