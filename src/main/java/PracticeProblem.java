@@ -129,8 +129,12 @@ public class PracticeProblem {
 			input.nextLine(); //clear scanner
 		}
 		do{
-			choice = 0;
-			choice = input.nextInt();
+			try {
+				choice = 0;
+				choice = input.nextInt();
+			} catch (InputMismatchException e) { //IF THEY PUT IN ANOTHER STRING I'M JUMPING THEM
+				input.nextLine(); //clear
+			}
 		} while (!(choice == 1) && !(choice == 2));
 		return choice;
 	}
@@ -144,8 +148,12 @@ public class PracticeProblem {
 			input.nextLine(); //clear scanner
 		}
 		do{
-			choice = 0;
-			choice = input.nextInt();
+			try {
+				choice = 0;
+				choice = input.nextInt();
+			} catch (InputMismatchException e) { //IF THEY PUT IN ANOTHER STRING I'M JUMPING THEM
+				input.nextLine(); //clear
+			}
 		} while (!(choice >= books.get(0)) || !(choice <= books.size()));
 	
 		return choice;
@@ -172,6 +180,8 @@ public class PracticeProblem {
 					System.out.println("You don't want to remember that. You need to cover up your uniform if you want Mr. Sunshine to help. Maybe his red cloak will do, if you could just get his guard down...");
 				break;
 			}
+
+			System.out.println("\nIf you're ever stuck, you could try checking the bookshelf!");
 		}
 
 		System.out.println("\nYou only see darkness. You could get up again, or you could stay asleep forever.");
@@ -409,21 +419,25 @@ public class PracticeProblem {
 		books.add(2);
 		books.add(3);
 
-		if (chasedBySeimei == true) {
-			System.out.println("4.[Catalog of Sailor Uniforms Over the Ages]");
+		if (readRitualBook == true) {
+			System.out.println("4.[The Chalk Prince]");
 			books.add(4);
 		}
 
-		if (dieAka == true) {
-			System.out.println("5.[That Time I Was a Whale, and I Ate a Guy's Leg]\n6.[Bloody Baking]");
+		if (chasedBySeimei == true) {
+			System.out.println("5.[Catalog of Sailor Uniforms Over the Ages]");
 			books.add(5);
+		}
+
+		if (dieAka == true) {
+			System.out.println("6.[That Time I Was a Whale, and I Ate a Guy's Leg]\n7.[Bloody Baking]");
 			books.add(6);
+			books.add(7);
 
 		}//reading bloody baking or birthday after reading chalk prince will allow you to get cake
 
 		if (openDoor == true) {
-			System.out.println("7.[Lit Birthday Etiquette]\n8.[The Chalk Prince]\n9.[Scissor Serial]");
-			books.add(7);
+			System.out.println("8.[Lit Birthday Etiquette]\n9.[Scissor Serial]");
 			books.add(8);
 			books.add(9);
 		}
@@ -507,71 +521,8 @@ public class PracticeProblem {
 					
 					System.out.println("\nHuh. Interesting. You take note of the book. It wouldn't be bad to prepare for it anyways, regardless of if you're performing it or not.");
 				break;
-
-				case 4: //sailor catalog
-					System.out.println("It's as the title says. It's a book about different types of sailor uniforms through different eras.");
-					
-					while (sailorUni == false) {
-						if ((chasedBySeimei == true) && (toiletPaper == false)) { //chased by Seimei, haven't gotten toilet paper
-							System.out.println("\nMr. Sunshine would probably like this. You reach your hand into a random page and pull out a whole sailor uniform. You hastily wear it over your blazer uniform.");
-							sailorUni = true;
-						}
-					break;
-					}
-				break;
-
-				case 5: //whale book
-					System.out.println("It's a comical retelling of a famous book about a whale.");
-
-					while (bluePaper == false) {
-						if ((toiletPaper == true) && (redPaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
-							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
-							bluePaper = true;
-						}
-					break;
-
-					}
-				break;
-
-				case 6: //baking book
-					System.out.println("It's a cookbook for red cakes themed after horror movies.");
 				
-					while (redPaper == false) {
-						if ((toiletPaper == true) && (bluePaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
-							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the red icing, and your toilet paper comes out red. Huh.");
-							redPaper = true;
-						}
-					break;	
-					}
-
-					if ((cake == false) && (readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
-						System.out.println("You reach in and pull out a slice of cake. Yum.");
-						cake = true;
-					}
-				break;
-
-				case 7: //birthday book
-					System.out.println("It's a book about how to pull off the best birthday parties, specifically with fire.");
-					
-					while (cake == false) {
-						if ((readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
-							System.out.println("You reach in and pull out a slice of cake. Yum.");
-							cake = true;
-						}
-					break;	
-					}
-
-					while (candlesAndLighter == false) {
-						if (openDoor == true && candlesAndLighter == false) {
-							System.out.println("You reach in and pluck 5 candles off the cake and the lighter next to it.");
-							candlesAndLighter = true;
-						}
-					break;	
-					}
-
-				break;
-
-				case 8: //chalk book
+				case 4: //chalk book
 					System.out.println("It's an adventure picture book about a little chalk prince wielding a chalk sword. He's on a quest to retrieve the cake for his daisy.");
 				
 					if (readChalkPrince == false) { //first time reading
@@ -610,6 +561,69 @@ public class PracticeProblem {
 						}
 					break; //should only run if you DON'T have the chalk
 					}
+				break;
+
+				case 5: //sailor catalog
+					System.out.println("It's as the title says. It's a book about different types of sailor uniforms through different eras.");
+					
+					while (sailorUni == false) {
+						if ((chasedBySeimei == true) && (toiletPaper == false)) { //chased by Seimei, haven't gotten toilet paper
+							System.out.println("\nMr. Sunshine would probably like this. You reach your hand into a random page and pull out a whole sailor uniform. You hastily wear it over your blazer uniform.");
+							sailorUni = true;
+						}
+					break;
+					}
+				break;
+
+				case 6: //whale book
+					System.out.println("It's a comical retelling of a famous book about a whale.");
+
+					while (bluePaper == false) {
+						if ((toiletPaper == true) && (redPaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
+							bluePaper = true;
+						}
+					break;
+
+					}
+				break;
+
+				case 7: //baking book
+					System.out.println("It's a cookbook for red cakes themed after horror movies.");
+				
+					while (redPaper == false) {
+						if ((toiletPaper == true) && (bluePaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
+							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the red icing, and your toilet paper comes out red. Huh.");
+							redPaper = true;
+						}
+					break;	
+					}
+
+					if ((cake == false) && (readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
+						System.out.println("You reach in and pull out a slice of cake. Yum.");
+						cake = true;
+					}
+				break;
+
+				case 8: //birthday book
+					System.out.println("It's a book about how to pull off the best birthday parties, specifically with fire.");
+					
+					while (cake == false) {
+						if ((readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
+							System.out.println("You reach in and pull out a slice of cake. Yum.");
+							cake = true;
+						}
+					break;	
+					}
+
+					while (candlesAndLighter == false) {
+						if (openDoor == true && candlesAndLighter == false) {
+							System.out.println("You reach in and pluck 5 candles off the cake and the lighter next to it.");
+							candlesAndLighter = true;
+						}
+					break;	
+					}
+
 				break;
 
 				case 9: //Scissor book
@@ -999,6 +1013,7 @@ public class PracticeProblem {
 
 	}
 	public static void office() {
+		Scanner input = new Scanner (System.in);
 		System.out.println("========OFFICE========");
 		System.out.println("It's a cozy office. There's a desk in the center and a picture of the previous owner hung on the wall. The desk has a bunch of papers over it; some might be important to you.");
 		System.out.println("\nThere's a vault in the corner.");
@@ -1083,13 +1098,12 @@ public class PracticeProblem {
 			System.out.println("\nYou crouch down. It's a regular vault with a number pad.");
 
 			while (ichijama == false) {
-				System.out.println("You wonder if you can try cracking it open. Something inside is calling you.");
+				System.out.println("\nYou wonder if you can try cracking it open. Something inside is calling you.");
 				if (readNotes == true) { //read the notes
-					System.out.println("\nMaybe you could try 0214...? That was the date mentioned in Dr. Dodomeki's notes.");
+					System.out.println("\nMaybe you could try 0214 or 214...? That was the date mentioned in Dr. Dodomeki's notes.");
 				}
-				System.out.println("Input a code: ");
+				System.out.print("Input a code: ");
 				boolean code = vaultCode();
-				System.out.println(vaultCode());
 
 				if (code == true) {
 					System.out.println("\nThe vault swings open! You peer into the vault and grab the object sitting inside of it.");
@@ -1109,19 +1123,29 @@ public class PracticeProblem {
 					System.out.println("You pocket the ichijama doll. It IS yours after all.");
 					ichijama = true;
 					next = next();
-				} else { 
+				} 
+				if (code == false) {
 					System.out.println("The vault doesn't open. Hm, maybe you should look around some more.");
+					next = next();
 					break;
 				} 	
 			}			
 			break;
 
 			case 3:
+			while (readSignOutRecords == false) {	
 				System.out.println("\nYou read over the book sign-out records for the library. You read it over and you don't recognize any of these names, nor do you find particularly interesting.");
-				System.out.println("\nSomeone named Ten-something took out at least 20 manga in one day, but that's neither here nor there.");
-				next = next();
-				System.out.println("You pick up the record to return to Mr. Yakubyougami.");
-				next = next();
+					System.out.println("\nSomeone named Ten-something took out at least 20 manga in one day, but that's neither here nor there.");
+					next = next();
+					System.out.println("You pick up the record to return to Mr. Yakubyougami.");
+					readSignOutRecords = true;
+					next = next();
+					
+					scenes.push("office");
+					sceneChooser();
+			} 
+			System.out.println("You picked it up already.");
+			next = next();
 			break;
 		}
 		
@@ -1129,35 +1153,39 @@ public class PracticeProblem {
 
 	public static int choiceChecker3 () { //checks whether it's a valid choice number (for 3 answers) 
 		Scanner input = new Scanner(System.in);
-		int choice; 
+		int choice = 0; 
 
 		while (!(input.hasNextInt())) { //make sure input is definitely an int
-			input.nextLine(); //clear scanner
+				input.nextLine(); //clear scanner
 		}
 		do{
-			choice = 0;
-			choice = input.nextInt();
+			try {
+				choice = 0;
+				choice = input.nextInt();
+			} catch (InputMismatchException e) { //IF THEY PUT IN ANOTHER STRING I'M JUMPING THEM
+				input.nextLine(); //clear
+			}
 		} while (!(choice == 1) && !(choice == 2) && !(choice == 3));
 		return choice;
 	}
 	public static boolean vaultCode() {
 		Scanner input = new Scanner(System.in);
-		int choice = 0;
+		int choice;
 
-		do {
-			try {
-			//while (!(input.hasNextInt())) { //make sure input is definitely an int
-				choice = input.nextInt();
-				} catch(InputMismatchException e){	
-					System.out.println("You can't put anything but integers into a keypad, c'mon...you know this.");
-				}//OH YM ODO
-				//-> ALL THE CHOICE CHECKERS ARE BROKEN BECAUSE IF YOU INPUT A WRONG NUMBER AND STRING AFTERWARDS IT CRASHES
-		} while (!(input.hasNextInt()));
+		while (!(input.hasNextInt())) {
+			input.nextLine(); //clear scanner
+			System.out.println("You can't put anything but integers into a keypad, c'mon...you know this.");
+
+			System.out.print("Input a code: ");
+		}
 		choice = input.nextInt();
 		
-		if (choice == 0214) {
+		if (choice == 214) {
+			System.out.println(choice);
+
 			return true;
 		} else {
+			System.out.println(choice);
 			return false;
 		}
 	}
