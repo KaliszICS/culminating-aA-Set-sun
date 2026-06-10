@@ -34,8 +34,14 @@ public class PracticeProblem {
 	public static boolean readNotes = false; //unlocks code
 	public static boolean readSignOutRecords = false; 
 	
-	public static boolean readChalkPrince = false; 
+	public static boolean readChalkPrince = false; //now unlocks as soon as you read the ritual book
 	public static boolean ending = false;
+
+	public static boolean returnRecords = false; //this is for the returning the record scene
+	public static boolean endingScene = false; //this is for the scissor scene in the library
+	
+	public static boolean goodEnd = false;
+	public static boolean badEnd = false;
 
 
     public static Stack<String> deaths = new Stack<>(); //keep track of most recent death 
@@ -91,20 +97,20 @@ public class PracticeProblem {
 		
 		System.out.println("Welcome to 'Book of Doll'!");
 
-		// System.out.println("What's your name?");
-		// name = input.nextLine();
+		System.out.println("What's your name?");
+		name = input.nextLine(); //yes, it is intentional that you can input whatever you want, it's goofy
 
-		// System.out.println("Please type Start to begin.");
-		// String nextChoice = "";
+		System.out.println("Please type Start to begin.");
+		String nextChoice = "";
 
-		// do{ //make sure they actually type start!!
-		// 	nextChoice = input.nextLine();
-		// } while (!((nextChoice.equalsIgnoreCase("start"))));
+		do{ //make sure they actually type start!!
+			nextChoice = input.nextLine();
+		} while (!((nextChoice.equalsIgnoreCase("start"))));
 
 		System.out.println("Pro tip! Before we start, if there's a pause in the text, try typing next or pressing enter to proceed!");
 		next = next();
 
-		scenes.push("office");
+		scenes.push("scene1");
 		sceneChooser();
 			
 	}
@@ -242,7 +248,6 @@ public class PracticeProblem {
 			case 3: System.out.print("\nTHere's a counter with a stack of books on it. You're going to stop counting..."); break;
 			default: System.out.print("\nThere's a counter with too many books for you to count on top.");
 		}
-		System.out.print(" There's nobody behind the counter.");
 		next = next();
 		
 		while (metSano == false) { 
@@ -258,7 +263,7 @@ public class PracticeProblem {
 			"He eyes you coolly, as if not expecting you to have been standing there.");
 			next = next();
 
-			System.out.println("\nYou stare at him blankly. He watches you back with a neutral expression.");
+			System.out.println("You stare at him blankly. He watches you back with a neutral expression.");
 			next = next();
 
 			System.out.println("After a bit, he clears his throat and he walks past you to set the books down. He turns back around to face you.");
@@ -319,7 +324,7 @@ public class PracticeProblem {
 			metSano = true;
 		} //end of Sano's first scene
 
-		while (triedDoorScene == true) {
+		while (triedDoorScene == true) { //SCENE AFTER YOU RETURN FROM THE OFFICE
 			triedDoorScene = false;
 
 			System.out.println("\nYou return and explain the door situation to Mr. Yakubyougami.");
@@ -351,6 +356,7 @@ public class PracticeProblem {
 				System.out.println("\n\"I-Is that...IT'S A SAILOR UNIFORM!! EEEEEEEEEEP! Oh, it's so beautiful!\" Mr. Sunshine's eyes light up. He squeals and circles you rapidly, looking over the uniform.");
 				System.out.print("\nYou stand awkwardly and stare at Mr. Yakubyougami, who looks as embarassed as you feel.");
 				next = next();
+				cruelty--;
 			
 				System.out.println("\n\"Um, so Mr. Sunshine, can you help me open the office door?\" You clear your throat.\n\n\"Of course!\" Mr. Sunshine happily skips towards the hallway. You follow after him.");
 				next = next();
@@ -367,6 +373,74 @@ public class PracticeProblem {
 			scenes.push("office");
 			sceneChooser();
 		} //end of Seimei scene
+
+		while (returnRecords == true) { //
+			System.out.println("\nYou return to the library and hand the records off to Mr. Yakubyougami. He's in the middle of scolding Mr. Sunshine, who looks sheepish.");
+			System.out.println("\nMr. Yakubyougami notices you and takes the records.\n\n\"Thanks...I'll put you in charge of the counter for now while I go return the books on this list,\" he sighs.");
+			System.out.println("\nYou nod in understanding.");
+			next = next();
+			System.out.println("Mr. Yakubyougami grabs a stack of books and heads off, list in hand. Mr. Sunshine trails after him like an overeager puppy.");
+			returnRecords = false;
+		}
+
+		if (goodEnd == true) {
+			System.out.println("\nYou position yourself at the counter. A few patrons do come in, and you help them out the best you can. It's fun.");
+			System.out.println("Your eyelids begin growing heavy as the day goes on. You're close to dozing off when...");
+			next = next();
+			System.out.println("\"Yoohoo! You weren't planning on sleeping on the job were you?\"");
+			System.out.println("\nYou look up.");
+			next = next();
+			System.out.println("A man with parted black hair and a long white coat is leaning over the counter with a fond smile.");
+			next = next();
+			System.out.println("\n\"You're Dr. Dodomeki...?\" you yawn, rubbing your eyes as you sit up.");
+			System.out.println("He nods. \"Yes, and I'm here to take you home with me, if that's what you'd like.\" He offers you a hand.");
+			next = next();
+			System.out.println("\"I'm sleepy...\" You continue yawning as you take his hand in yours. He laughs and leads you out of the store, but not before you both give your goodbyes to Mr. Sunshine and Mr. Yakubyougami.");
+			System.out.println("====GOOD END!====");
+
+			next = next();
+			System.exit(0);
+		}
+
+		while (endingScene == true) {
+			System.out.println("You hear Mr. Sunshine chatting Mr. Yakubyougami's ear off in the distance. Mr. Yakubyougami occasionally responds dryly or with insults towards Mr. Sunshine.");
+			System.out.println("1. Go towards them\n2. Leave them be");
+			choice = choiceChecker();
+			if (choice == 1) {
+				System.out.println("\nYou walk over and peek at what they're doing. Mr. Yakubyougami and Mr. Sunshine are stopped in front of a shelf and Mr. Sunshine appears to be discussing his class. Books keep falling on Mr. Sunshine's head...it must be Mr. Yakubyougami's influence.");
+				if (scissors == true) {
+					System.out.println("\nYou sneak up closer, and when the moment is right, you snip off Mr. Sunshine's cowlick! Weirdly enough, a new one pops back into place so nobody notices a thing.");
+					seimeiHair = true;
+					endingScene = false;
+
+				}
+				System.out.println("There's nothing else for you to do here, so you walk back.");
+				next = next();
+
+				scenes.push("library");
+				sceneChooser();
+			}
+		}
+
+		if (badEnd == true) {
+			if (chalk == true && candlesAndLighter == true && seimeiHair == true && ichijama == true) { //have all ritual pieces
+				System.out.println("\nYou step out and begin drawing a large pentagram using the chalk.");
+				next = next();
+				System.out.println("Next, you place a candle at every point of the star and light it up.");
+				next = next();
+				System.out.println("Using Mr. Sunshine's hair, you place it in the center next to your ichijama butokii. You stand in the center as well.");
+				next = next();
+				System.out.println("For the prayer...you think for a bit before deciding a name to pray to.");
+				System.out.println("\n\"" + name + ", please cleanse this living curse from this world.\" You close your eyes and begin praying to " + name + ".");
+				next = next();
+				System.out.println("Light floods your vision and your body feels a lot lighter.");
+				System.out.println("'Ah...I'm free' You think, and then it all disappears.");
+				System.out.println("====END====");
+
+				next = next();
+				System.exit(0);
+			}
+		}
 
 		System.out.println("1. Look at bookshelf\n2. Continue to the hallway");
 		choice = choiceChecker();
@@ -526,7 +600,7 @@ public class PracticeProblem {
 					System.out.println("It's an adventure picture book about a little chalk prince wielding a chalk sword. He's on a quest to retrieve the cake for his daisy.");
 				
 					if (readChalkPrince == false) { //first time reading
-						System.out.println("You reach in and try to pluck the chalk sword out of the prince's hands. He nimbly jumps away!");
+						System.out.println("\nYou reach in and try to pluck the chalk sword out of the prince's hands. He nimbly jumps away!");
 						System.out.println("\n\"Excuse me! You can't just steal my sword! I need it for my quest!\" The Chalk Prince speaks.");
 						System.out.println("\nYour brows furrow as you think hard about how to proceed.");
 							
@@ -534,9 +608,10 @@ public class PracticeProblem {
 					}
 					while (chalk == false) {
 						System.out.println("\n\"Well?\" The Chalk Prince stares at you expectantly from the page.");
+						boolean cakeQuest = false; //have you finished the quest yet
 
 						next = next();
-						while (cake == false) {
+						while (cakeQuest == false) {
 							System.out.println("1. Rob him\n2. Trade him a cake");
 							choice = choiceChecker();
 
@@ -548,7 +623,7 @@ public class PracticeProblem {
 							}
 
 							if (choice == 2) { //cake quest
-								if (cake = false) { //doesn't have cake yet
+								if (cake == false) { //doesn't have cake yet
 									System.out.println("\n\"I'll get you a cake.\" You nod.");
 								}
 								else { //have a cake
@@ -556,6 +631,7 @@ public class PracticeProblem {
 									chalk = true;
 									cruelty--;
 								}
+							cakeQuest = true; //finished
 							} //end of cake quest
 						break;	
 						}
@@ -599,9 +675,11 @@ public class PracticeProblem {
 					break;	
 					}
 
-					if ((cake == false) && (readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
-						System.out.println("You reach in and pull out a slice of cake. Yum.");
-						cake = true;
+					while (cake == false) {
+					  if ((readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
+							System.out.println("\nYou reach in and pull out a slice of cake. Yum.");
+							cake = true;
+						}
 					}
 				break;
 
@@ -610,7 +688,7 @@ public class PracticeProblem {
 					
 					while (cake == false) {
 						if ((readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
-							System.out.println("You reach in and pull out a slice of cake. Yum.");
+							System.out.println("\nYou reach in and pull out a slice of cake. Yum.");
 							cake = true;
 						}
 					break;	
@@ -872,7 +950,7 @@ public class PracticeProblem {
 					next = next();
 
 					System.out.println("You look up. The bathroom door is open.");
-					System.out.println("\"Hehehe, here's your toilet paper.\" It's a person in a long red cloak.");
+					System.out.println("\n\"Hehehe, here's your toilet paper.\" It's a person in a long red cloak.");
 					next = next();
 
 					System.out.println("\n'Aka Manto' Your brain helpfully pipes up again. Red Cloak. Thanks, brain.");
@@ -888,7 +966,7 @@ public class PracticeProblem {
 					next = next();
 
 					System.out.println("You look up. The bathroom door is open.");
-					System.out.println("\"Hehehe, here's your toilet paper.\" It's a person in a long red cloak.");
+					System.out.println("\n\"Hehehe, here's your toilet paper.\" It's a person in a long red cloak.");
 					next = next();
 
 					System.out.println("\n'Aka Manto' Your brain helpfully pipes up again. Red Cloak. Thanks, brain.");
@@ -1029,6 +1107,32 @@ public class PracticeProblem {
 						System.out.println("\nWith nothing else left to do here, you're set to return to the library with the sign-out records in hand.");
 						next = next();
 
+						//ENDING------------------------------------------------
+						System.out.println("Before you return, there's decision you have to make now. You take out the look-alike doll from your pocket.");
+						System.out.println("\nNow that you know that you're just a living curse, do you still want to continue your purposeless existence?");
+						System.out.println("Dr. Dodomeki could come back for you, or you could exorcise yourself.");
+						for (int i = 0; i < 3; i++) {
+							next = next();
+							System.out.println(".");
+						}
+						System.out.println("====" + cruelty + "CRUELTY POINTS====");
+
+						if (cruelty > 0) { //BAD END
+							badEnd = true;
+							System.out.println("'No. I'm a curse who has failed my purpose.' You shake your head. There's nothing left for you to do anyways.\n\nYou can use that ritual book to exorcise yourself.");
+							next = next();
+							System.out.println("\nYou set back to the library, intent on performing that ritual.");
+						} else { //GOOD END
+							goodEnd = true;
+							System.out.println("'No! Dr. Dodomeki said he was coming back. I can find out more about myself then, I'm not just some living curse!' you huff to yourself.");
+							next = next();
+							System.out.println("You return to the library, ready to find a new purpose.");
+						}
+						next = next();
+						
+						ending = true;
+						returnRecords = true;
+						endingScene = true;
 						scenes.push("library");
 						sceneChooser();
 					}
