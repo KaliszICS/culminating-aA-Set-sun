@@ -540,7 +540,7 @@ public class PracticeProblem {
 					System.out.println("It's a guide about folding origami using strange materials, such as toilet paper.");
 					while (toiletPaper == false && sailorUni == false) {
 						if (dieAka == true) {
-							System.out.println("You reach your hand in and grab a roll of toilet paper.");
+							System.out.println("You reach your hand in and grab a roll of toilet paper. Now you just have to dye it...");
 							toiletPaper = true; 
 						}
 					break;
@@ -1059,7 +1059,7 @@ public class PracticeProblem {
 						System.out.println("\n\"You're ugly,\" you speak bluntly.");
 						next = next();
 
-						System.out.println("Aka Manto's lips quiver as a sign that he's growing blue He begins crying uncontrollably and loudly.");
+						System.out.println("Aka Manto's lips quiver as a sign that he's growing blue. He begins crying uncontrollably and loudly.");
 					}
 
 					System.out.println("\nWhile he's incapacitated, you pull the cloak off of him. He's really just another guy your age. You fasten it around yourself and leave him quickly.");
