@@ -402,7 +402,7 @@ public class PracticeProblem {
 			System.exit(0);
 		}
 
-		while (endingScene == true) {
+		while (badEnd == true) {
 			System.out.println("You hear Mr. Sunshine chatting Mr. Yakubyougami's ear off in the distance. Mr. Yakubyougami occasionally responds dryly or with insults towards Mr. Sunshine.");
 			System.out.println("1. Go towards them\n2. Leave them be");
 			choice = choiceChecker();
@@ -417,8 +417,12 @@ public class PracticeProblem {
 				System.out.println("There's nothing else for you to do here, so you walk back.");
 				next = next();
 
-				scenes.push("library");
-				sceneChooser();
+				break;
+			}
+			if (choice == 2) {
+				System.out.println("You leave them alone.");
+				next = next();
+				break;
 			}
 		}
 
@@ -660,9 +664,9 @@ public class PracticeProblem {
 						if ((toiletPaper == true) && (redPaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
 							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the blue waters, and your toilet paper comes out blue. Huh.");
 							bluePaper = true;
+							break;
 						}
 					break;
-
 					}
 				break;
 
@@ -673,6 +677,7 @@ public class PracticeProblem {
 						if ((toiletPaper == true) && (bluePaper == false) && (sailorUni == false)) { //has toilet paper, hasn't dyed it yet, doesn't have sailor uniform
 							System.out.println("You take the toilet paper and place it into the rippling surface of the book. You dip it in the red icing, and your toilet paper comes out red. Huh.");
 							redPaper = true;
+							break;
 						}
 					break;	
 					}
@@ -681,7 +686,10 @@ public class PracticeProblem {
 					  if ((readChalkPrince == true) && (chalk == false)) { //don't have cake, has read the Chalk book, don't have chalk
 							System.out.println("\nYou reach in and pull out a slice of cake. Yum.");
 							cake = true;
+							break;
 						}
+					break;
+
 					}
 				break;
 
