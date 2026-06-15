@@ -1,0 +1,20 @@
+K(30%): 100
+I(30%): 80
+C(10%): 100
+A(30%): 100
+
+94%
+
+Great work Angie!
+So you kind of did what we talked about but in a more round about way that made your life harder.
+Instead of calling scene chooser at the end of each scene, your main method could have just had a while loop that continued as long as your scenes data structure was not empty.
+That would mean you never have to run scene chooser in any of your other methods, no matter how many you make (they just return back to your loop and rerun it)
+This would also avoid you needing "System.exit(0);" Since a simple return when the data structure is empty would end the code.
+
+Don't write "ailorUni == false" or "ailorUni == true"!
+You already have a boolean, just use ! if you want it to be the opposite (this is what == false does.  == true does nothing.)
+
+With how often you're running your next() function in conjunction with your print statements. I would have combined those together (a function that outputs and runs next())
+Using some more functions would also help with when your code is becoming over nested. (case in a case in an if in a loop kind of situations.)
+
+Otherwise well done!
